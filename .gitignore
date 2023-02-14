@@ -386,3 +386,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+#Exclude development config
+/tfm.api/appsettings.Development.json
+/tfm.api/appsettings.Development.json
