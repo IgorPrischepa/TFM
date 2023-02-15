@@ -389,4 +389,3 @@ FodyWeavers.xsd
 
 #Exclude development config
 /tfm.api/appsettings.Development.json
-/tfm.api/appsettings.Development.json
