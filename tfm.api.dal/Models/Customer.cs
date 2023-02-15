@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace tfm.api.dal.Models
 {
-    internal class Customer
+    public class Customer
     {
         public int Id { get; set; }
 

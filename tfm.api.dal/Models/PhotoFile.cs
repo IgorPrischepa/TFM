@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.dal.Models
 {
-    internal class PhotoFile
+    public class PhotoFile
     {
         public int Id { get; set; }
 

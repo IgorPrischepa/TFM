@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.dal.Models
 {
-    internal class Booking
+    public class Booking
     {
         public int Id { get; set; }
 

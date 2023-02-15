@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.dal.Models
 {
-    internal class Role
+    public class Role
     {
         public int Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.dal.Models
 {
-    internal class StylePrice
+    public class StylePrice
     {
         public int Id { get; set; }
 

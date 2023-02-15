@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.dal.Models
 {
-    internal class Contact
+    public class Contact
     {
         public int Id { get; set; }
 

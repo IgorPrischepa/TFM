@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.dal.Models
 {
-    internal class Master
+    public class Master
     {
         public int Id { get; set; }
 
