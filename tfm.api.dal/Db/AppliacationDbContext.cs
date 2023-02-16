@@ -33,11 +33,11 @@ namespace tfm.api.dal.Db
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
-            modelBuilder.ApplyConfiguration(new ContactsConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new ExampleConfiguration());
             modelBuilder.ApplyConfiguration(new MasterConfiguration());
-            modelBuilder.ApplyConfiguration(new RolesConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new StylePriceConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }

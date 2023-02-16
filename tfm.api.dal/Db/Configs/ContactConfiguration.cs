@@ -4,7 +4,7 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    internal class ContactsConfiguration : IEntityTypeConfiguration<Contact>
+    internal class ContactConfiguration : IEntityTypeConfiguration<Contact>
     {
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
