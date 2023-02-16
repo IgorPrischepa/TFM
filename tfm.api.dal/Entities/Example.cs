@@ -1,4 +1,5 @@
-﻿namespace tfm.api.dal.Models
+﻿namespace tfm.api.dal.Entities
+
 {
     public class Example
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using tfm.api.dal.Models;
+using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
