@@ -1,4 +1,4 @@
-﻿namespace tfm.api.dal.Entities
+﻿namespace tfm.api.dal.Entities.Enums
 {
     public enum StateTypes
     {

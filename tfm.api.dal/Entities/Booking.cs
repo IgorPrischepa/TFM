@@ -1,4 +1,6 @@
-﻿namespace tfm.api.dal.Entities
+﻿using tfm.api.dal.Entities.Enums;
+
+namespace tfm.api.dal.Entities
 {
     public class Booking
     {
