@@ -6,6 +6,8 @@
 
         public User User { get; set; } = null!;
 
-        public string Phone { get; set; } = null!;
+        public string Value { get; set; } = null!;
+
+        public ContactTypes Type { get; set; }
     }
 }
