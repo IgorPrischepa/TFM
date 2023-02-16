@@ -10,7 +10,7 @@
 
         public DateTime BookingTime { get; set; }
 
-        public int State { get; set; }
+        public StateTypes State { get; set; }
 
         public string StateComment { get; set; } = string.Empty;
     }
