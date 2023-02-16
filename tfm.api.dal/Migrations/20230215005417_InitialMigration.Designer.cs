@@ -11,7 +11,7 @@ using tfm.api.dal.Db;
 
 namespace tfm.api.dal.Migrations
 {
-    [DbContext(typeof(AppliacationDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230215005417_InitialMigration")]
     partial class InitialMigration
     {

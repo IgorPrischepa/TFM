@@ -3,7 +3,7 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    public class AppliacationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; } = null!;
 
@@ -25,7 +25,7 @@ namespace tfm.api.dal.Db
 
         public DbSet<Customer> Customers { get; set; } = null!;
 
-        public AppliacationDbContext(DbContextOptions<AppliacationDbContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }

@@ -10,8 +10,8 @@ using tfm.api.dal.Db;
 
 namespace tfm.api.dal.Migrations
 {
-    [DbContext(typeof(AppliacationDbContext))]
-    partial class AppliacationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
