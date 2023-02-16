@@ -7,7 +7,7 @@
 
         public Master Master { get; set; } = null!;
 
-        public Style StyleStyle { get; set; } = null!;
+        public Style Style { get; set; } = null!;
 
         public PhotoFile PhotoFile { get; set; } = null!;
 

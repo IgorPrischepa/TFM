@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using tfm.api.dal.Db;
@@ -12,10 +11,9 @@ using tfm.api.dal.Db;
 namespace tfm.api.dal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230215005417_InitialMigration")]
-    partial class InitialMigration
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +34,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("RoleUser", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Booking", b =>
@@ -70,7 +68,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("StylePriceId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Contact", b =>
@@ -84,7 +82,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Customer", b =>
@@ -105,7 +103,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Example", b =>
@@ -126,7 +124,7 @@ namespace tfm.api.dal.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("StyleStyleId")
+                    b.Property<int>("StyleId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -135,9 +133,9 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("PhotoFileId");
 
-                    b.HasIndex("StyleStyleId");
+                    b.HasIndex("StyleId");
 
-                    b.ToTable("Examples");
+                    b.ToTable("Examples", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Master", b =>
@@ -162,7 +160,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Masters");
+                    b.ToTable("Masters", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.PhotoFile", b =>
@@ -179,7 +177,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PhotoFiles");
+                    b.ToTable("PhotoFiles", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Role", b =>
@@ -196,7 +194,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Style", b =>
@@ -217,7 +215,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Styles");
+                    b.ToTable("Styles", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.StylePrice", b =>
@@ -243,7 +241,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("StyleId");
 
-                    b.ToTable("StylePrices");
+                    b.ToTable("StylePrices", (string)null);
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.User", b =>
@@ -270,7 +268,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("RoleUser", b =>
@@ -345,7 +343,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasOne("tfm.api.dal.Entities.Style", "Style")
                         .WithMany()
-                        .HasForeignKey("StyleStyleId")
+                        .HasForeignKey("StyleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
