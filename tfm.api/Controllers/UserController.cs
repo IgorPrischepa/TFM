@@ -17,16 +17,16 @@ namespace tfm.api.Controllers
             _logger = logger;
         }
 
-        [HttpPost("/Register")]
-        public async Task<IActionResult> RegisterAsync(UserDto user)
+        [HttpPost("Register")]
+        public async Task<IActionResult> RegisterAsync([FromBody] UserDto user)
         {
-            if (user == null)
-            {
-                return BadRequest();
-            }
             try
             {
+                _logger.LogInformation("User registration start");
+
                 await _userService.RegisterAsync(user);
+
+                _logger.LogInformation("User has been registered.");
 
                 return Ok();
             }
@@ -38,16 +38,16 @@ namespace tfm.api.Controllers
             }
         }
 
-        [HttpDelete("/Delete")]
-        public async Task<IActionResult> DeleteAsync(int userId)
+        [HttpDelete("Delete/{id:min(1)}")]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            if (userId < 0)
-            {
-                return BadRequest();
-            }
             try
             {
-                await _userService.DeleteAsync(userId);
+                _logger.LogInformation("User deleting start.");
+
+                await _userService.DeleteAsync(id);
+
+                _logger.LogInformation("User has been deleted.");
 
                 return Ok();
             }
