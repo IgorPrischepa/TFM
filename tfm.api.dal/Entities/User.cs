@@ -10,8 +10,6 @@
 
         public string LastName { get; set; } = null!;
 
-        public string FullName { get; set; } = null!;
-
         public IEnumerable<Contact> Contacts { get; set; } = null!;
 
         public IEnumerable<Role> Roles { get; set; } = null!;
