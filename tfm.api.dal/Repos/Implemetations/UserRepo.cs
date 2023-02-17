@@ -16,13 +16,12 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task<int> AddAsync(User user)
         {
-            if (user != null)
-            {
-                await _db.Users.AddAsync(user);
-                await _db.SaveChangesAsync();
-                return user.Id;
-            }
-            return 0;
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            await _db.Users.AddAsync(user);
+            await _db.SaveChangesAsync();
+            return user.Id;
         }
 
         public async Task DeleteAsync(User user)
