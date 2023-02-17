@@ -8,8 +8,8 @@ namespace tfm.api.dal.Repos.Contracts
         /// Add new user and save to DB
         /// </summary>
         /// <param name="user"></param>
-        /// <returns></returns>
-        Task AddAsync(User user);
+        /// <returns>User Id if successfull, otherwise 0</returns>
+        Task<int> AddAsync(User user);
 
         /// <summary>
         /// Update data in User
