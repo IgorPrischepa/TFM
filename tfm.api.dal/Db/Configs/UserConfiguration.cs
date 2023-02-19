@@ -8,6 +8,8 @@ namespace tfm.api.dal.Db
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Property(u => u.Email).IsRequired();
+            builder.HasIndex(u => u.Email).IsUnique();
             builder.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
             builder.Property(u => u.MiddleName).HasMaxLength(50);
             builder.Property(u => u.LastName).HasMaxLength(50);

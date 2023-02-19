@@ -40,22 +40,20 @@ namespace tfm.api.Services.Implemetation
             if (userx == null)
             {
                 _logger.LogWarning("User is not found.");
-                return null;
+                return string.Empty;
             }
 
             _logger.LogInformation("User exists.");
 
-            List<Claim> claims = new List<Claim>();
-
-            claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, userx.Email));
+            List<Claim> claims = new()
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userx.Email)
+            };
 
             foreach (var role in userx.Roles)
             {
-                claims.Add(
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
-                    );
+                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, role));
             }
-
 
             var jwt = new JwtSecurityToken(
                              issuer: _issuer,

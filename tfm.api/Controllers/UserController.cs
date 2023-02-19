@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using tfm.api.bll.DTO;
 using tfm.api.bll.Services.Contracts;
 
@@ -38,6 +39,7 @@ namespace tfm.api.Controllers
             }
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpDelete("Delete/{id:min(1)}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

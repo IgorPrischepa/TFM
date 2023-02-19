@@ -9,21 +9,24 @@ namespace tfm.api.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly IUserService _userService;
         private readonly IJWTAuthService _jwtService;
 
-        public TokenController(IConfiguration config, IUserService userService, IJWTAuthService jWTAuth)
+        public TokenController(IJWTAuthService jWTAuth)
         {
-            _configuration = config;
-            _userService = userService;
             _jwtService = jWTAuth;
         }
 
         [HttpPost]
-        public async Task<string> Login([FromBody] LoginDto user)
+        public async Task<IActionResult> Login([FromBody] LoginDto user)
         {
-            return await _jwtService.GenerateTokenAsync(user);
+            string token = await _jwtService.GenerateTokenAsync(user);
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized();
+            }
+
+            return Ok(token);
         }
     }
 }
