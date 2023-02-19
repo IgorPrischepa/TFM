@@ -25,15 +25,40 @@ namespace tfm.api.bll.Services.Implementations
             await _userRepo.DeleteAsync(userId);
         }
 
-        public async Task RegisterAsync(UserDto user)
+        public async Task<UserDTO?> GetUserAsync(string userEmail, string password)
+        {
+            User? targetUser = await _userRepo.FindByEmailAsync(userEmail);
+
+            if (targetUser == null)
+            {
+                return null;
+            }
+
+            if (!BC.Verify(password, targetUser.PasswordHash))
+            {
+                return null;
+            };
+
+            return new UserDTO()
+            {
+                Email = targetUser.Email,
+                FirstName = targetUser.FirstName,
+                MiddleName = targetUser.MiddleName,
+                LastName = targetUser.LastName,
+                Roles = targetUser.Roles.Select(_ => _.Name).ToArray(),
+            };
+        }
+
+        public async Task RegisterUserAsync(NewUserDto user)
         {
             if (user is null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
-
+            // create Only customers
             await _userRepo.AddAsync(new User()
             {
+                Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 MiddleName = user.MiddleName,

@@ -18,13 +18,13 @@ namespace tfm.api.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] UserDto user)
+        public async Task<IActionResult> RegisterAsync([FromBody] NewUserDto user)
         {
             try
             {
                 _logger.LogInformation("User registration start");
 
-                await _userService.RegisterAsync(user);
+                await _userService.RegisterUserAsync(user);
 
                 _logger.LogInformation("User has been registered.");
 
@@ -32,7 +32,7 @@ namespace tfm.api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, Environment.NewLine, ex.StackTrace);
+                _logger.LogError("{Message}{NewLine}{StackTrace}", ex.Message, Environment.NewLine, ex.StackTrace);
 
                 return BadRequest();
             }
@@ -53,7 +53,7 @@ namespace tfm.api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, Environment.NewLine, ex.StackTrace);
+                _logger.LogError("{Message}{NewLine}{StackTrace}", ex.Message, Environment.NewLine, ex.StackTrace);
 
                 return BadRequest();
             }

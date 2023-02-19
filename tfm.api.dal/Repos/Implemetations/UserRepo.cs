@@ -46,6 +46,16 @@ namespace tfm.api.dal.Repos.Implemetations
             }
         }
 
+        public async Task<User?> FindByEmailAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentNullException(nameof(email));
+            }
+
+            return await _db.Users.Include(_ => _.Roles).Where(_ => _.Email == email).FirstOrDefaultAsync();
+        }
+
         public async Task UpdateAsync(User user)
         {
             if (user != null)
