@@ -16,7 +16,7 @@ namespace tfm.api.Services.Implemetation
 
         private readonly string _issuer;
         private readonly string _key;
-        private readonly string minutes;
+        private readonly string _minutes;
         private readonly string _audience;
 
         public JWTAuthService(IUserService userService, ILogger<JWTAuthService> logger, IConfiguration configuration)
@@ -27,11 +27,10 @@ namespace tfm.api.Services.Implemetation
             _audience = configuration["Jwt:audience"];
             _issuer = configuration["Jwt:issuer"];
             _key = configuration["Jwt:secret"];
-            minutes = configuration["Jwt:accessTokenExpiration"];
+            _minutes = configuration["Jwt:accessTokenExpiration"];
         }
 
-        [HttpGet]
-        public async Task<string> GenerateTokenAsync([FromQuery] LoginDto user)
+        public async Task<string> GenerateTokenAsync(LoginUserDto user)
         {
             _logger.LogInformation("Start generation token.");
 
@@ -39,8 +38,7 @@ namespace tfm.api.Services.Implemetation
 
             if (targetUser == null)
             {
-                _logger.LogWarning("User is not found.");
-                return string.Empty;
+                throw new ArgumentException($"{user} is not valid or doesn't exist.");
             }
 
             _logger.LogInformation("User exists.");
@@ -59,7 +57,7 @@ namespace tfm.api.Services.Implemetation
                              issuer: _issuer,
                              audience: _audience,
                              claims: claims,
-                             expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(Convert.ToDouble(minutes))),
+                             expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(Convert.ToDouble(_minutes))),
                              signingCredentials: new SigningCredentials(GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
 

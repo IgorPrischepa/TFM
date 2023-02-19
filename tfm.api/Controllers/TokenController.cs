@@ -16,16 +16,18 @@ namespace tfm.api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginDto user)
+        public async Task<IActionResult> Login([FromBody] LoginUserDto user)
         {
-            string token = await _jwtService.GenerateTokenAsync(user);
+            try
+            {
+                string token = await _jwtService.GenerateTokenAsync(user);
 
-            if (string.IsNullOrEmpty(token))
+                return Ok(token);
+            }
+            catch (ArgumentException)
             {
                 return Unauthorized();
             }
-
-            return Ok(token);
         }
     }
 }

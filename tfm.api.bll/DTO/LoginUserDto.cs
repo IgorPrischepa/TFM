@@ -2,7 +2,7 @@
 
 namespace tfm.api.bll.DTO
 {
-    public sealed class LoginDto
+    public sealed class LoginUserDto
     {
         [Required]
         [EmailAddress]
