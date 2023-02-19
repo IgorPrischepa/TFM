@@ -5,7 +5,7 @@ using tfm.api.dal.Repos.Contracts;
 
 namespace tfm.api.dal.Repos.Implemetations
 {
-    public class UserRepo : IUserRepo
+    public sealed class UserRepo : IUserRepo
     {
         private readonly ApplicationDbContext _db;
 
