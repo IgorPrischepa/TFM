@@ -10,6 +10,8 @@
 
         public byte Exp { get; set; }
 
+        public bool IsBlocked { get; set; } = false;
+
         public IEnumerable<StylePrice> Prices { get; set; } = null!;
     }
 }
