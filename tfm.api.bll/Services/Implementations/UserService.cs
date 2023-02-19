@@ -56,8 +56,6 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task RegisterUserAsync(NewUserDto user)
         {
-            const string baseRole = "Customer";
-
             _logger.LogInformation("Start registration for a new user.");
 
             if (user is null)
@@ -80,12 +78,12 @@ namespace tfm.api.bll.Services.Implementations
 
             newUser.Roles ??= new List<Role>();
 
-            Role? customerRole = await _rolesRepo.FindByNameAsync(baseRole);
+            Role? customerRole = await _rolesRepo.FindByNameAsync(Constants.CustomerRoleName);
 
             if (customerRole == null)
             {
                 _logger.LogCritical("Role can't be finded. Create new custemer impossible.");
-                throw new Exception($"Role: {baseRole}, can't be finded.");
+                throw new Exception($"Role: {Constants.CustomerRoleName}, can't be finded.");
             }
 
             newUser.Roles.Add(customerRole);
