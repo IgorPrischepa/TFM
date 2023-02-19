@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using tfm.api.bll.DTO;
 using tfm.api.bll.Services.Contracts;
 
@@ -18,13 +19,13 @@ namespace tfm.api.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] UserDto user)
+        public async Task<IActionResult> RegisterAsync([FromBody] NewUserDto user)
         {
             try
             {
                 _logger.LogInformation("User registration start");
 
-                await _userService.RegisterAsync(user);
+                await _userService.RegisterUserAsync(user);
 
                 _logger.LogInformation("User has been registered.");
 
@@ -32,12 +33,13 @@ namespace tfm.api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, Environment.NewLine, ex.StackTrace);
+                _logger.LogError("{Message}{NewLine}{StackTrace}", ex.Message, Environment.NewLine, ex.StackTrace);
 
                 return BadRequest();
             }
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpDelete("Delete/{id:min(1)}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -53,7 +55,7 @@ namespace tfm.api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, Environment.NewLine, ex.StackTrace);
+                _logger.LogError("{Message}{NewLine}{StackTrace}", ex.Message, Environment.NewLine, ex.StackTrace);
 
                 return BadRequest();
             }
