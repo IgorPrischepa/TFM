@@ -23,10 +23,13 @@ namespace tfm.api.dal.Repos.Implemetations
 
             Master newMaster = new()
             {
-                User = user
+                User = user,
+                Avatar = new byte[0]
             };
 
             await _db.Masters.AddAsync(newMaster);
+
+            await _db.SaveChangesAsync();
 
             return newMaster.Id;
         }
@@ -35,22 +38,26 @@ namespace tfm.api.dal.Repos.Implemetations
         {
             Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId);
 
-            if (targetMaster != null)
+            if (targetMaster == null)
             {
-                targetMaster.IsBlocked = true;
-                await _db.SaveChangesAsync();
+                throw new ArgumentException($"nameof(masterId) invalid.");
             }
+
+            targetMaster.IsBlocked = true;
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int masterId)
         {
             Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId);
 
-            if (targetMaster != null)
+            if (targetMaster == null)
             {
-                _db.Masters.Remove(targetMaster);
-                await _db.SaveChangesAsync();
+                throw new ArgumentException($"nameof(masterId) invalid.");
             }
+
+            _db.Masters.Remove(targetMaster);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<bool> IsBlockedAsync(int masterId)
@@ -62,11 +69,13 @@ namespace tfm.api.dal.Repos.Implemetations
         {
             Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId);
 
-            if (targetMaster != null)
+            if (targetMaster == null)
             {
-                targetMaster.IsBlocked = false;
-                await _db.SaveChangesAsync();
+                throw new ArgumentException($"nameof(masterId) invalid.");
             }
+
+            targetMaster.IsBlocked = false;
+            await _db.SaveChangesAsync();
         }
     }
 }

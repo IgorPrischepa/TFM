@@ -12,10 +12,8 @@ namespace tfm.api.dal.Repos.Contracts
 
         Task DeleteAsync(int userId);
 
-        /// <summary>
-        /// Tries to find a user who is equal to provided an email.
-        /// <param name="email"></param>
-        /// <returns>If finded  returns <see cref="User"></see>, otherwise null</returns>
         Task<User?> FindByEmailAsync(string email);
+
+        Task<User?> FindByIdAsync(int Id);
     }
 }
