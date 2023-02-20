@@ -45,6 +45,7 @@ builder.Services.AddAuthorization(options =>
 //Repos
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IRolesRepo, RoleRepo>();
+builder.Services.AddScoped<IMasterRepo, MasterRepo>();
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();

@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using tfm.api.dal.Db;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -26,7 +21,7 @@ namespace tfm.api.dal.Repos.Implemetations
                 throw new ArgumentNullException(nameof(user));
             }
 
-            Master newMaster = new Master()
+            Master newMaster = new()
             {
                 User = user
             };

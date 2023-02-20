@@ -56,6 +56,16 @@ namespace tfm.api.dal.Repos.Implemetations
             return await _db.Users.Include(_ => _.Roles).Where(_ => _.Email == email).FirstOrDefaultAsync();
         }
 
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            throw 
+        }
+
+        public Task<User?> GetByIdAsync(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateAsync(User user)
         {
             if (user != null)
