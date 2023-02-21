@@ -1,19 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace tfm.api.bll.DTO
+﻿namespace tfm.api.bll.DTO
 {
-    public sealed class UserDto
+    public sealed class UserDTO
     {
-        [Required]
-        [MinLength(4)]
-        public string FirstName { get; set; } = string.Empty;
+        public string Email { get; set; } = null!;
 
-        public string LastName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = null!;
 
-        public string MiddleName { get; set; } = string.Empty;
+        public string MiddleName { get; set; } = null!;
 
-        [Required]
-        [MinLength(6)]
-        public string Password { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+
+        public IEnumerable<string> Roles { get; set; } = null!;
     }
 }

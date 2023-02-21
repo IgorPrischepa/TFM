@@ -5,7 +5,7 @@ using tfm.api.dal.Repos.Contracts;
 
 namespace tfm.api.dal.Repos.Implemetations
 {
-    public class UserRepo : IUserRepo
+    public sealed class UserRepo : IUserRepo
     {
         private readonly ApplicationDbContext _db;
 
@@ -44,6 +44,16 @@ namespace tfm.api.dal.Repos.Implemetations
                     await _db.SaveChangesAsync();
                 }
             }
+        }
+
+        public async Task<User?> FindByEmailAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentNullException(nameof(email));
+            }
+
+            return await _db.Users.Include(_ => _.Roles).Where(_ => _.Email == email).FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(User user)
