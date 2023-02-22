@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -38,6 +37,7 @@ namespace tfm.api.Services.Implemetation
 
             if (targetUser == null)
             {
+                _logger.LogWarning("User not founded or input is invalid");
                 throw new ArgumentException($"{user} is not valid or doesn't exist.");
             }
 
