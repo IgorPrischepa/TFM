@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 using System.Text;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.bll.Services.Implementations;
@@ -15,7 +18,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//Logger config
+
+var configuration = new ConfigurationBuilder()
+                 .AddJsonFile("appsettings.json")
+                 .Build();
+
+Log.Logger = new LoggerConfiguration()
+.WriteTo.Console()
+        .ReadFrom.Configuration(configuration)
+        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+        .CreateLogger();
+builder.Host.UseSerilog();
+
 // Connect to PostgreSQL Database
+
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
@@ -76,6 +94,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

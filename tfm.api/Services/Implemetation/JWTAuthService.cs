@@ -37,6 +37,7 @@ namespace tfm.api.Services.Implemetation
 
             if (targetUser == null)
             {
+                _logger.LogWarning("User not founded or input is invalid");
                 throw new ArgumentException($"{user} is not valid or doesn't exist.");
             }
 
