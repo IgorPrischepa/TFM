@@ -10,7 +10,7 @@ namespace tfm.api.dal.Db
         {
             builder.HasOne(b => b.StylePrice);
             builder.HasOne(b => b.Customer);
-            builder.Property(b=>b.StateComment).HasMaxLength(250);
+            builder.Property(b => b.StateComment).HasMaxLength(250);
         }
     }
 }
