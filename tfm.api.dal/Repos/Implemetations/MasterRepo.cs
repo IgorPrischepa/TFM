@@ -62,7 +62,7 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task<bool> IsBlockedAsync(int masterId)
         {
-            return await _db.Masters.AsNoTracking().Where(_ => _.Id == masterId).Select(_ => _.IsBlocked).FirstAsync();
+            return (await _db.Masters.AsNoTracking().FirstAsync(_ => _.Id == masterId)).IsBlocked;
         }
 
         public async Task UnblockAsync(int masterId)
