@@ -9,10 +9,12 @@ namespace tfm.api.Controllers
     public class TokenController : ControllerBase
     {
         private readonly IJWTAuthService _jwtService;
+        private readonly ILogger<TokenController> _logger;
 
-        public TokenController(IJWTAuthService jWTAuth)
+        public TokenController(IJWTAuthService jWTAuth, ILogger<TokenController> logger)
         {
             _jwtService = jWTAuth;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -22,10 +24,12 @@ namespace tfm.api.Controllers
             {
                 string token = await _jwtService.GenerateTokenAsync(user);
 
+                _logger.LogInformation("The token has been successfully generated.");
                 return Ok(token);
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
+                _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
                 return Unauthorized();
             }
         }

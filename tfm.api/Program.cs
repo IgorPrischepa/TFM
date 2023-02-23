@@ -62,10 +62,12 @@ builder.Services.AddAuthorization(options =>
 //Repos
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IRolesRepo, RoleRepo>();
+builder.Services.AddScoped<IMasterRepo, MasterRepo>();
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJWTAuthService, JWTAuthService>();
+builder.Services.AddScoped<IMasterService, MasterService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

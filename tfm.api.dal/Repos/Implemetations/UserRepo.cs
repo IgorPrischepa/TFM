@@ -53,7 +53,12 @@ namespace tfm.api.dal.Repos.Implemetations
                 throw new ArgumentNullException(nameof(email));
             }
 
-            return await _db.Users.Include(_ => _.Roles).Where(_ => _.Email == email).FirstOrDefaultAsync();
+            return await _db.Users.Include(_ => _.Roles).FirstOrDefaultAsync(_ => _.Email == email);
+        }
+
+        public async Task<User?> FindByIdAsync(int Id)
+        {
+            return await _db.Users.Include(_ => _.Roles).FirstOrDefaultAsync(_ => _.Id == Id);
         }
 
         public async Task UpdateAsync(User user)
