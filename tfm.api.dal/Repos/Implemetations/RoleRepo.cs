@@ -35,7 +35,7 @@ namespace tfm.api.dal.Repos.Implemetations
                 throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
             }
 
-            return await _db.Roles.Where(_ => _.Name == name).FirstOrDefaultAsync();
+            return await _db.Roles.FirstOrDefaultAsync(_ => _.Name == name);
         }
     }
 }

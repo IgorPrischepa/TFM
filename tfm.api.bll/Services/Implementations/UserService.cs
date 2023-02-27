@@ -30,7 +30,7 @@ namespace tfm.api.bll.Services.Implementations
             await _userRepo.DeleteAsync(userId);
         }
 
-        public async Task<UserDTO?> GetUserAsync(string userEmail, string password)
+        public async Task<UserDto?> GetUserAsync(string userEmail, string password)
         {
             User? targetUser = await _userRepo.FindByEmailAsync(userEmail);
 
@@ -44,7 +44,7 @@ namespace tfm.api.bll.Services.Implementations
                 return null;
             };
 
-            return new UserDTO()
+            return new UserDto()
             {
                 Email = targetUser.Email,
                 FirstName = targetUser.FirstName,

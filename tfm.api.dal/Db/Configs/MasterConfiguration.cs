@@ -8,7 +8,9 @@ namespace tfm.api.dal.Db
     {
         public void Configure(EntityTypeBuilder<Master> builder)
         {
-            builder.HasOne(u => u.User);
+            builder.HasOne(u=>u.User).WithOne();
+            builder.HasKey(u => u.Id);
+            builder.HasIndex(u => u.UserId).IsUnique();
         }
     }
 }
