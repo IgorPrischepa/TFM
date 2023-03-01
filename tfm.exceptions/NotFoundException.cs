@@ -1,4 +1,4 @@
-﻿namespace tfm.CustomExceptions
+﻿namespace tfm.api.exceptions
 {
     public sealed class NotFoundException : Exception
     {

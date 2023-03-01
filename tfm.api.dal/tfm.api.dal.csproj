@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\tfm.CustomExceptions\tfm.CustomExceptions.csproj" />
+    <ProjectReference Include="..\tfm.exceptions\tfm.exceptions.csproj" />
   </ItemGroup>
 
 </Project>

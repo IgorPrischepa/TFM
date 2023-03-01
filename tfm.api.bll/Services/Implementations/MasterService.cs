@@ -2,7 +2,7 @@
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
-using tfm.CustomExceptions;
+using tfm.api.exceptions;
 
 namespace tfm.api.bll.Services.Implementations
 {

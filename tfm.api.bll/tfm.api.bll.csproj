@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\tfm.api.dal\tfm.api.dal.csproj" />
-    <ProjectReference Include="..\tfm.CustomExceptions\tfm.CustomExceptions.csproj" />
   </ItemGroup>
 
 </Project>
