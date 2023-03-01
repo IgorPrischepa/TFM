@@ -23,10 +23,10 @@ namespace tfm.api.Services.Implemetation
             _userService = userService;
             _logger = logger;
 
-            _audience = configuration["Jwt:audience"];
-            _issuer = configuration["Jwt:issuer"];
-            _key = configuration["Jwt:secret"];
-            _minutes = configuration["Jwt:accessTokenExpiration"];
+            _audience = configuration["Jwt:audience"] ?? throw new ArgumentNullException("Jwt:audience can't be null. Check appsettings.");
+            _issuer = configuration["Jwt:issuer"] ?? throw new ArgumentNullException("Jwt:issuer can't be null. Check appsettings.");
+            _key = configuration["Jwt:secret"] ?? throw new ArgumentNullException("Jwt:secret can't be null. Check appsettings.");
+            _minutes = configuration["Jwt:accessTokenExpiration"] ?? throw new ArgumentNullException("Jwt:accessTokenExpiration can't be null. Check appsettings.");
         }
 
         public async Task<string> GenerateTokenAsync(LoginUserDto user)
