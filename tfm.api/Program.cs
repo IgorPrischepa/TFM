@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -62,12 +61,12 @@ builder.Services.AddAuthorization(options =>
 //Repos
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IRolesRepo, RoleRepo>();
-builder.Services.AddScoped<IMasterRepo, MasterRepo>();
+builder.Services.AddScoped<IStyleRepo, StyleRepo>();
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJWTAuthService, JWTAuthService>();
-builder.Services.AddScoped<IMasterService, MasterService>();
+builder.Services.AddScoped<IStyleService, StyleService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
