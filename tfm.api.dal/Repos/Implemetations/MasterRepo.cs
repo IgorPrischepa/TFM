@@ -24,7 +24,7 @@ namespace tfm.api.dal.Repos.Implemetations
             Master newMaster = new()
             {
                 User = user,
-                Avatar = new byte[0]
+                Avatar = Array.Empty<byte>()
             };
 
             await _db.Masters.AddAsync(newMaster);
@@ -36,12 +36,8 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task BlockAsync(int masterId)
         {
-            Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId);
-
-            if (targetMaster == null)
-            {
-                throw new ArgumentException($"nameof(masterId) invalid.");
-            }
+            Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId)
+                                         ?? throw new ArgumentException($"nameof(masterId) invalid.");
 
             targetMaster.IsBlocked = true;
             await _db.SaveChangesAsync();
@@ -49,15 +45,16 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task DeleteAsync(int masterId)
         {
-            Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId);
-
-            if (targetMaster == null)
-            {
-                throw new ArgumentException($"nameof(masterId) invalid.");
-            }
+            Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId)
+                                        ?? throw new ArgumentException($"nameof(masterId) invalid.");
 
             _db.Masters.Remove(targetMaster);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<Master?> GetAsync(int masterId)
+        {
+            return await _db.Masters.FirstOrDefaultAsync(_ => _.Id == masterId);
         }
 
         public async Task<bool> IsBlockedAsync(int masterId)
@@ -67,12 +64,8 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task UnblockAsync(int masterId)
         {
-            Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId);
-
-            if (targetMaster == null)
-            {
-                throw new ArgumentException($"nameof(masterId) invalid.");
-            }
+            Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId)
+                                        ?? throw new ArgumentException($"nameof(masterId) invalid.");
 
             targetMaster.IsBlocked = false;
             await _db.SaveChangesAsync();
