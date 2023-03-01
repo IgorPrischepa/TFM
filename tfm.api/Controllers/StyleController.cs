@@ -11,22 +11,35 @@ namespace tfm.api.Controllers
     public class StyleController : ControllerBase
     {
         private readonly IStyleService _styles;
+        private readonly ILogger<StyleController> _logger;
 
-        public StyleController(IStyleService styleService)
+        public StyleController(IStyleService styleService, ILogger<StyleController> logger)
         {
             _styles = styleService;
+            _logger = logger;
         }
 
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] NewStyleDto newStyle)
         {
-            return Ok(await _styles.AddAsync(newStyle));
+            _logger.LogInformation("Add new style executing.");
+
+            await _styles.AddAsync(newStyle);
+
+            _logger.LogInformation("New style has been added.");
+
+            return Ok();
         }
 
         [HttpDelete("Delete/{id:min(1)}")]
         public async Task<IActionResult> DeleteAsync([FromQuery] int styleId)
         {
+            _logger.LogInformation("Style is being deleted.");
+
             await _styles.DeleteAsync(styleId);
+
+            _logger.LogInformation("Styel has been deleted.");
+
             return Ok();
         }
     }
