@@ -10,10 +10,12 @@ namespace tfm.api.Controllers
     public class MasterController : ControllerBase
     {
         private readonly IMasterService _masterService;
+        private readonly ILogger<MasterController> _logger;
 
-        public MasterController(IMasterService masterService)
+        public MasterController(IMasterService masterService, ILogger<MasterController> logger)
         {
             _masterService = masterService;
+            _logger = logger;
         }
 
 
@@ -25,8 +27,9 @@ namespace tfm.api.Controllers
             {
                 return Ok(await _masterService.AddNewAsync(userId));
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
+                _logger.LogError( ex.Message, ex.StackTrace);
                 return BadRequest();
             }
         }
@@ -40,8 +43,9 @@ namespace tfm.api.Controllers
                 await _masterService.DeleteAsync(userId);
                 return Ok();
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
+                _logger.LogError(ex.Message, ex.StackTrace);
                 return BadRequest();
             }
         }
@@ -56,8 +60,9 @@ namespace tfm.api.Controllers
 
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message, ex.StackTrace);
                 return BadRequest();
             }
         }
@@ -71,8 +76,9 @@ namespace tfm.api.Controllers
                 await _masterService.DeletePriceAsync(stylePrice);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message, ex.StackTrace);
                 return BadRequest();
             }
         }
