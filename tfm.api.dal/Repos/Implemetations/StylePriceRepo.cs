@@ -24,6 +24,8 @@ namespace tfm.api.dal.Repos.Implemetations
 
             await _db.StylePrices.AddAsync(stylePrice);
 
+            await _db.SaveChangesAsync();
+
             return stylePrice.Id;
         }
 
@@ -33,6 +35,7 @@ namespace tfm.api.dal.Repos.Implemetations
                                 ?? throw new NotFoundException($"StylePriceId = {stylePriceid}. Can't find specified item.");
 
             _db.StylePrices.Remove(entity);
+
             await _db.SaveChangesAsync();
         }
     }
