@@ -13,5 +13,7 @@ namespace tfm.api.dal.Repos.Contracts
         Task BlockAsync(int masterId);
 
         Task UnblockAsync(int masterId);
+
+        Task<Master?> GetAsync(int masterId);
     }
 }

@@ -43,5 +43,10 @@ namespace tfm.api.dal.Repos.Implemetations
                 await _db.SaveChangesAsync();
             }
         }
+
+        public async Task<Style?> GetAsync(int id)
+        {
+            return await _db.Styles.FirstOrDefaultAsync(_ => _.Id == id);
+        }
     }
 }

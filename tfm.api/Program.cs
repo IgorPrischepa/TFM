@@ -62,11 +62,13 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IRolesRepo, RoleRepo>();
 builder.Services.AddScoped<IStyleRepo, StyleRepo>();
+builder.Services.AddScoped<IStylePriceRepo, StylePriceRepo>();
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJWTAuthService, JWTAuthService>();
 builder.Services.AddScoped<IStyleService, StyleService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

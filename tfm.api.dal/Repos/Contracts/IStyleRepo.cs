@@ -7,5 +7,7 @@ namespace tfm.api.dal.Repos.Contracts
         Task<int> AddAsync(Role newStyle);
 
         Task DeleteAsync(int roleId);
+
+        Task<Style?> GetAsync(int id);
     }
 }

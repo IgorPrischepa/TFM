@@ -1,4 +1,6 @@
-﻿namespace tfm.api.bll.Services.Contracts
+﻿using tfm.api.bll.DTO;
+
+namespace tfm.api.bll.Services.Contracts
 {
     public interface IMasterService
     {
@@ -11,5 +13,9 @@
         Task BlockAsync(int masterId);
 
         Task UnblockAsync(int masterId);
+
+        Task AddPriceAsync(NewMasterPrice newMaster);
+
+        Task DeletePriceAsync(int stylePriceId);
     }
 }
