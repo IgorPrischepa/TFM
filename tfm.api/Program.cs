@@ -2,8 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NpgsqlTypes;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.PostgreSQL.ColumnWriters;
+using Serilog.Sinks.PostgreSQL;
 using System.Text;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.bll.Services.Implementations;
@@ -12,6 +15,8 @@ using tfm.api.dal.Repos.Contracts;
 using tfm.api.dal.Repos.Implemetations;
 using tfm.api.Services.Contract;
 using tfm.api.Services.Implemetation;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +28,26 @@ var configuration = new ConfigurationBuilder()
                  .AddJsonFile("appsettings.json")
                  .Build();
 
+string tableName = "logs";
+
+IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
+{
+    { "message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
+    { "message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
+    { "level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+    { "raise_date", new TimestampColumnWriter(NpgsqlDbType.TimestampTz) },
+    { "exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
+    { "properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
+    { "props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },
+    { "machine_name", new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.ToString, NpgsqlDbType.Text, "l") }
+};
+
+
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new ArgumentNullException("Default connections string can't be null.");
+
 Log.Logger = new LoggerConfiguration()
-.WriteTo.Console()
+        .WriteTo.Console()
+        .WriteTo.PostgreSQL(connectionString, tableName, columnWriters, needAutoCreateSchema: true, needAutoCreateTable: true)
         .ReadFrom.Configuration(configuration)
         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
         .CreateLogger();
@@ -32,8 +55,6 @@ builder.Host.UseSerilog();
 
 // Connect to PostgreSQL Database
 
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
@@ -68,7 +89,6 @@ builder.Services.AddScoped<IStylePriceRepo, StylePriceRepo>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJWTAuthService, JWTAuthService>();
 builder.Services.AddScoped<IStyleService, StyleService>();
-
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
