@@ -1,6 +1,6 @@
 ﻿using tfm.api.bll.DTO;
 
-namespace tfm.api.Services.Contract
+namespace tfm.api.bll.Services.Contract
 {
     public interface IJWTAuthService
     {

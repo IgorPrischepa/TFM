@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tfm.api.dal", "tfm.api.dal\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tfm.api.bll", "tfm.api.bll\tfm.api.bll.csproj", "{C8F507A6-985B-498F-BE8E-589A0B125370}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tfm.exceptions", "tfm.exceptions\tfm.exceptions.csproj", "{A5BA6B4E-EFC1-4150-8219-50A7F2DECD61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tfm.api.exceptions", "tfm.exceptions\tfm.api.exceptions.csproj", "{A5BA6B4E-EFC1-4150-8219-50A7F2DECD61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

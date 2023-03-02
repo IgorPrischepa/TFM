@@ -13,8 +13,6 @@ using tfm.api.bll.Services.Implementations;
 using tfm.api.dal.Db;
 using tfm.api.dal.Repos.Contracts;
 using tfm.api.dal.Repos.Implemetations;
-using tfm.api.Services.Contract;
-using tfm.api.Services.Implemetation;
 
 
 
