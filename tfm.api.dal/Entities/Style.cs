@@ -7,5 +7,7 @@
         public string Name { get; set; } = null!;
 
         public string Description { get; set; } = string.Empty;
+
+        public IEnumerable<StylePrice> Prices { get; set; } = null!;
     }
 }

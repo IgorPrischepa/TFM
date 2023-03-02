@@ -8,7 +8,9 @@ namespace tfm.api.dal.Db
     {
         public void Configure(EntityTypeBuilder<Example> builder)
         {
-            builder.HasOne(u => u.PhotoFile);
+            builder.HasOne(u => u.PhotoFile)
+                   .WithOne(e => e.Example)
+                   .HasForeignKey<PhotoFile>(k => k.ExampleId);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using tfm.api.dal.Db;
@@ -11,9 +12,10 @@ using tfm.api.dal.Db;
 namespace tfm.api.dal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230302095304_FixNavigationFields")]
+    partial class FixNavigationFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleUser", (string)null);
+                    b.ToTable("RoleUser");
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Booking", b =>
@@ -68,7 +70,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("StylePriceId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Contact", b =>
@@ -88,7 +90,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Customer", b =>
@@ -109,7 +111,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Example", b =>
@@ -139,7 +141,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("StyleId");
 
-                    b.ToTable("Examples", (string)null);
+                    b.ToTable("Examples");
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Master", b =>
@@ -168,7 +170,7 @@ namespace tfm.api.dal.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Masters", (string)null);
+                    b.ToTable("Masters");
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.PhotoFile", b =>
@@ -191,7 +193,7 @@ namespace tfm.api.dal.Migrations
                     b.HasIndex("ExampleId")
                         .IsUnique();
 
-                    b.ToTable("PhotoFiles", (string)null);
+                    b.ToTable("PhotoFiles");
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.Role", b =>
@@ -211,7 +213,7 @@ namespace tfm.api.dal.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -249,7 +251,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Styles", (string)null);
+                    b.ToTable("Styles");
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.StylePrice", b =>
@@ -275,7 +277,7 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("StyleId");
 
-                    b.ToTable("StylePrices", (string)null);
+                    b.ToTable("StylePrices");
                 });
 
             modelBuilder.Entity("tfm.api.dal.Entities.User", b =>
@@ -314,7 +316,7 @@ namespace tfm.api.dal.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("RoleUser", b =>

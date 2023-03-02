@@ -9,6 +9,7 @@ namespace tfm.api.dal.Db
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
             builder.HasOne(u => u.User);
+            builder.HasKey(u => u.Id);
         }
     }
 }
