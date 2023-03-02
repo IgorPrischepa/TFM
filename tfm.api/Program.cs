@@ -13,8 +13,8 @@ using tfm.api.bll.Services.Implementations;
 using tfm.api.dal.Db;
 using tfm.api.dal.Repos.Contracts;
 using tfm.api.dal.Repos.Implemetations;
-
-
+using tfm.api.bll.Services.Contract;
+using tfm.api.bll.Services.Implemetation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,7 +66,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateAudience = true,
         ValidAudience = builder.Configuration["Jwt:audience"],
         ValidIssuer = builder.Configuration["Jwt:issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:secret"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:secret"]!))
     };
 });
 
