@@ -6,6 +6,8 @@ namespace tfm.api.dal.Entities
     {
         public int Id { get; set; }
 
+        public int UserId { get; set; }
+
         public User User { get; set; } = null!;
 
         public string Value { get; set; } = null!;
