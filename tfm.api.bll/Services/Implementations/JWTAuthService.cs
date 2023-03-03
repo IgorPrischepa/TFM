@@ -4,9 +4,11 @@ using System.Security.Claims;
 using System.Text;
 using tfm.api.bll.DTO;
 using tfm.api.bll.Services.Contracts;
-using tfm.api.Services.Contract;
+using tfm.api.bll.Services.Contract;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
-namespace tfm.api.Services.Implemetation
+namespace tfm.api.bll.Services.Implemetation
 {
     public class JWTAuthService : IJWTAuthService
     {
