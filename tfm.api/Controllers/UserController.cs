@@ -19,7 +19,7 @@ namespace tfm.api.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] NewUserDto user)
+        public async Task<IActionResult> RegisterAsync([FromBody] AddUserDto user)
         {
             try
             {

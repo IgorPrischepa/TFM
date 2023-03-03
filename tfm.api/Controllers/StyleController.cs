@@ -20,7 +20,7 @@ namespace tfm.api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAsync([FromBody] NewStyleDto newStyle)
+        public async Task<IActionResult> AddAsync([FromBody] AddStyleDto newStyle)
         {
             _logger.LogInformation("Add new style executing.");
 

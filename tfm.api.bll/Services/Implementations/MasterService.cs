@@ -32,7 +32,7 @@ namespace tfm.api.bll.Services.Implementations
             return await _masters.AddNewAsync(user);
         }
 
-        public async Task AddPriceAsync(NewMasterPrice newMasterPrice)
+        public async Task AddPriceAsync(AddMasterPriceDto newMasterPrice)
         {
             Style? targetStyle = await _styles.GetAsync(newMasterPrice.StyleId)
                             ?? throw new NotFoundException($"Style didn't finded. Check value = {newMasterPrice.StyleId}");

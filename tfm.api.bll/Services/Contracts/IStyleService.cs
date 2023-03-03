@@ -4,7 +4,7 @@ namespace tfm.api.bll.Services.Contracts
 {
     public interface IStyleService
     {
-        Task<int> AddAsync(NewStyleDto newStyle);
+        Task<int> AddAsync(AddStyleDto newStyle);
 
         Task DeleteAsync(int styleId);
     }

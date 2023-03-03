@@ -17,7 +17,7 @@ namespace tfm.api.bll.Services.Implementations
             _logger = logger;
         }
 
-        public async Task<int> AddAsync(NewStyleDto newStyle)
+        public async Task<int> AddAsync(AddStyleDto newStyle)
         {
             if (newStyle is null)
             {

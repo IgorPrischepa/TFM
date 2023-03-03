@@ -30,7 +30,7 @@ namespace tfm.api.bll.Services.Implementations
             await _userRepo.DeleteAsync(userId);
         }
 
-        public async Task<UserDto?> GetUserAsync(string userEmail, string password)
+        public async Task<BaseUserDto?> GetUserAsync(string userEmail, string password)
         {
             User? targetUser = await _userRepo.FindByEmailAsync(userEmail);
 
@@ -44,7 +44,7 @@ namespace tfm.api.bll.Services.Implementations
                 return null;
             };
 
-            return new UserDto()
+            return new BaseUserDto()
             {
                 Email = targetUser.Email,
                 FirstName = targetUser.FirstName,
@@ -54,7 +54,7 @@ namespace tfm.api.bll.Services.Implementations
             };
         }
 
-        public async Task RegisterUserAsync(NewUserDto user)
+        public async Task RegisterUserAsync(AddUserDto user)
         {
             _logger.LogInformation("Start registration for a new user.");
 

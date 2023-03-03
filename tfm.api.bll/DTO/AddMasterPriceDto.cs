@@ -2,7 +2,7 @@
 
 namespace tfm.api.bll.DTO
 {
-    public sealed class NewMasterPrice
+    public sealed class AddMasterPriceDto
     {
         [Required]
         public int MasterId { get; set; }

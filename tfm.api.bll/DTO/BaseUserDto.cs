@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.bll.DTO
 {
-    public sealed class UserDto
+    public sealed class BaseUserDto
     {
         public string Email { get; set; } = null!;
 
