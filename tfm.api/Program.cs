@@ -5,16 +5,16 @@ using Microsoft.OpenApi.Models;
 using NpgsqlTypes;
 using Serilog;
 using Serilog.Events;
-using Serilog.Sinks.PostgreSQL.ColumnWriters;
 using Serilog.Sinks.PostgreSQL;
+using Serilog.Sinks.PostgreSQL.ColumnWriters;
 using System.Text;
+using tfm.api.bll.Services.Contract;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.bll.Services.Implementations;
+using tfm.api.bll.Services.Implemetation;
 using tfm.api.dal.Db;
 using tfm.api.dal.Repos.Contracts;
 using tfm.api.dal.Repos.Implemetations;
-using tfm.api.bll.Services.Contract;
-using tfm.api.bll.Services.Implemetation;
 
 var builder = WebApplication.CreateBuilder(args);
 

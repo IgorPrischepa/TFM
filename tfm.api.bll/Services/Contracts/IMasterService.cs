@@ -14,7 +14,7 @@ namespace tfm.api.bll.Services.Contracts
 
         Task UnblockAsync(int masterId);
 
-        Task AddPriceAsync(NewMasterPrice newMaster);
+        Task AddPriceAsync(AddMasterPriceDto newMaster);
 
         Task DeletePriceAsync(int stylePriceId);
     }

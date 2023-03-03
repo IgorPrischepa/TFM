@@ -4,10 +4,10 @@ namespace tfm.api.bll.Services.Contracts
 {
     public interface IUserService
     {
-        Task RegisterUserAsync(NewUserDto user);
+        Task RegisterUserAsync(AddUserDto user);
 
         Task DeleteAsync(int userId);
 
-        Task<UserDto?> GetUserAsync(string userEmail, string password);
+        Task<BaseUserDto?> GetUserAsync(string userEmail, string password);
     }
 }

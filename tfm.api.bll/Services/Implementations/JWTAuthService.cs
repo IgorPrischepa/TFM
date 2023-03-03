@@ -1,12 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using tfm.api.bll.DTO;
-using tfm.api.bll.Services.Contracts;
 using tfm.api.bll.Services.Contract;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
+using tfm.api.bll.Services.Contracts;
 
 namespace tfm.api.bll.Services.Implemetation
 {

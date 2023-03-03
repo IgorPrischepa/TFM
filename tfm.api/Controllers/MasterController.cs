@@ -29,7 +29,7 @@ namespace tfm.api.Controllers
             }
             catch (ArgumentException ex)
             {
-                _logger.LogError( ex.Message, ex.StackTrace);
+                _logger.LogError(ex.Message, ex.StackTrace);
                 return BadRequest();
             }
         }
@@ -52,7 +52,7 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpPost("AddPrice")]
-        public async Task<IActionResult> AddPriceAsync(NewMasterPrice masterPrice)
+        public async Task<IActionResult> AddPriceAsync(AddMasterPriceDto masterPrice)
         {
             try
             {
