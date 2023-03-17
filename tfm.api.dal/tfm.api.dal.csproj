@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\tfm.exceptions\tfm.exceptions.csproj" />
+    <ProjectReference Include="..\tfm.exceptions\tfm.api.exceptions.csproj" />
   </ItemGroup>
 
 </Project>

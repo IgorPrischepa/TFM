@@ -4,7 +4,7 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    internal class RoleConfiguration : IEntityTypeConfiguration<Role>
+    internal class RoleConfiguration : IEntityTypeConfiguration<RoleEntity>
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
