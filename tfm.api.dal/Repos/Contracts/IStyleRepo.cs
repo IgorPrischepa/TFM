@@ -4,10 +4,10 @@ namespace tfm.api.dal.Repos.Contracts
 {
     public interface IStyleRepo
     {
-        Task<int> AddAsync(Role newStyle);
+        Task<int> AddAsync(RoleEntity newStyle);
 
         Task DeleteAsync(int roleId);
 
-        Task<Style?> GetAsync(int id);
+        Task<StyleEntity?> GetAsync(int id);
     }
 }

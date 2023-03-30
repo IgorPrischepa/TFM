@@ -14,7 +14,7 @@ namespace tfm.api.dal.Repos.Implemetations
             _db = context;
         }
 
-        public async Task<int> AddAsync(User user)
+        public async Task<int> AddAsync(UserEntity user)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
@@ -24,7 +24,7 @@ namespace tfm.api.dal.Repos.Implemetations
             return user.Id;
         }
 
-        public async Task DeleteAsync(User user)
+        public async Task DeleteAsync(UserEntity user)
         {
             if (user != null)
             {
@@ -37,7 +37,7 @@ namespace tfm.api.dal.Repos.Implemetations
         {
             if (userId > 0)
             {
-                User? targetUser = await _db.Users.FirstOrDefaultAsync(_ => _.Id == userId);
+                UserEntity? targetUser = await _db.Users.FirstOrDefaultAsync(_ => _.Id == userId);
                 if (targetUser != null)
                 {
                     _db.Remove(targetUser);
@@ -46,7 +46,7 @@ namespace tfm.api.dal.Repos.Implemetations
             }
         }
 
-        public async Task<User?> FindByEmailAsync(string email)
+        public async Task<UserEntity?> FindByEmailAsync(string email)
         {
             if (string.IsNullOrEmpty(email))
             {
@@ -56,12 +56,12 @@ namespace tfm.api.dal.Repos.Implemetations
             return await _db.Users.Include(_ => _.Roles).FirstOrDefaultAsync(_ => _.Email == email);
         }
 
-        public async Task<User?> FindByIdAsync(int Id)
+        public async Task<UserEntity?> FindByIdAsync(int Id)
         {
             return await _db.Users.Include(_ => _.Roles).FirstOrDefaultAsync(_ => _.Id == Id);
         }
 
-        public async Task UpdateAsync(User user)
+        public async Task UpdateAsync(UserEntity user)
         {
             if (user != null)
             {

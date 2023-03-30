@@ -15,7 +15,7 @@ namespace tfm.api.dal.Repos.Implemetations
             _db = context;
         }
 
-        public async Task<int> AddAsync(Role role)
+        public async Task<int> AddAsync(RoleEntity role)
         {
             if (role == null)
             {
@@ -28,7 +28,7 @@ namespace tfm.api.dal.Repos.Implemetations
             return role.Id;
         }
 
-        public async Task<Role?> FindByNameAsync(string name)
+        public async Task<RoleEntity?> FindByNameAsync(string name)
         {
             if (string.IsNullOrEmpty(name))
             {

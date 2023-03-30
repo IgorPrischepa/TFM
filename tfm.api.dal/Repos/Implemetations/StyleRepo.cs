@@ -14,7 +14,7 @@ namespace tfm.api.dal.Repos.Implemetations
             _db = context;
         }
 
-        public async Task<int> AddAsync(Role newStyle)
+        public async Task<int> AddAsync(RoleEntity newStyle)
         {
             if (newStyle is null)
             {
@@ -35,7 +35,7 @@ namespace tfm.api.dal.Repos.Implemetations
                 throw new ArgumentOutOfRangeException(nameof(roleId), roleId, "Role id can't be less or equal zero {}");
             }
 
-            Role? entity = await _db.Roles.FirstOrDefaultAsync(_ => _.Id == roleId);
+            RoleEntity? entity = await _db.Roles.FirstOrDefaultAsync(_ => _.Id == roleId);
 
             if (entity != null)
             {
@@ -44,7 +44,7 @@ namespace tfm.api.dal.Repos.Implemetations
             }
         }
 
-        public async Task<Style?> GetAsync(int id)
+        public async Task<StyleEntity?> GetAsync(int id)
         {
             return await _db.Styles.FirstOrDefaultAsync(_ => _.Id == id);
         }

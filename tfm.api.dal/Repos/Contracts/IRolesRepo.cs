@@ -4,8 +4,8 @@ namespace tfm.api.dal.Repos.Contracts
 {
     public interface IRolesRepo
     {
-        Task<int> AddAsync(Role role);
+        Task<int> AddAsync(RoleEntity role);
 
-        Task<Role?> FindByNameAsync(string name);
+        Task<RoleEntity?> FindByNameAsync(string name);
     }
 }

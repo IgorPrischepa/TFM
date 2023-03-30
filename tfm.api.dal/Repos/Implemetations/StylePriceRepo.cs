@@ -2,6 +2,7 @@
 using tfm.api.dal.Db;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
+using tfm.api.exceptions;
 
 namespace tfm.api.dal.Repos.Implemetations
 {
@@ -14,7 +15,7 @@ namespace tfm.api.dal.Repos.Implemetations
             _db = context;
         }
 
-        public async Task<int> AddAsync(StylePrice stylePrice)
+        public async Task<int> AddAsync(StylePriceEntity stylePrice)
         {
             if (stylePrice is null)
             {
@@ -30,7 +31,7 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task DeleteAsync(int stylePriceid)
         {
-            StylePrice? entity = await _db.StylePrices.FirstOrDefaultAsync(_ => _.Id == stylePriceid)
+            StylePriceEntity? entity = await _db.StylePrices.FirstOrDefaultAsync(_ => _.Id == stylePriceid)
                                 ?? throw new NotFoundException($"StylePriceId = {stylePriceid}. Can't find specified item.");
 
             _db.StylePrices.Remove(entity);

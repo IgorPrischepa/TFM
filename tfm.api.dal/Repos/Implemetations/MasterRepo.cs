@@ -14,14 +14,14 @@ namespace tfm.api.dal.Repos.Implemetations
             _db = context;
         }
 
-        public async Task<int> AddNewAsync(User user)
+        public async Task<int> AddNewAsync(UserEntity user)
         {
             if (user is null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
 
-            Master newMaster = new()
+            MasterEntity newMaster = new()
             {
                 User = user,
                 Avatar = Array.Empty<byte>()
@@ -36,7 +36,7 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task BlockAsync(int masterId)
         {
-            Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId)
+            MasterEntity? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId)
                                          ?? throw new ArgumentException($"nameof(masterId) invalid.");
 
             targetMaster.IsBlocked = true;
@@ -45,14 +45,14 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task DeleteAsync(int masterId)
         {
-            Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId)
+            MasterEntity? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId)
                                         ?? throw new ArgumentException($"nameof(masterId) invalid.");
 
             _db.Masters.Remove(targetMaster);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Master?> GetAsync(int masterId)
+        public async Task<MasterEntity?> GetAsync(int masterId)
         {
             return await _db.Masters.FirstOrDefaultAsync(_ => _.Id == masterId);
         }
@@ -64,7 +64,7 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task UnblockAsync(int masterId)
         {
-            Master? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId)
+            MasterEntity? targetMaster = _db.Masters.FirstOrDefault(_ => _.Id == masterId)
                                         ?? throw new ArgumentException($"nameof(masterId) invalid.");
 
             targetMaster.IsBlocked = false;

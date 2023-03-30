@@ -4,7 +4,7 @@ namespace tfm.api.dal.Repos.Contracts
 {
     public interface IMasterRepo
     {
-        Task<int> AddNewAsync(User user);
+        Task<int> AddNewAsync(UserEntity user);
 
         Task DeleteAsync(int masterId);
 
@@ -14,6 +14,6 @@ namespace tfm.api.dal.Repos.Contracts
 
         Task UnblockAsync(int masterId);
 
-        Task<Master?> GetAsync(int masterId);
+        Task<MasterEntity?> GetAsync(int masterId);
     }
 }
