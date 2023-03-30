@@ -6,13 +6,13 @@ namespace tfm.api.dal.Db
 {
     internal class RoleConfiguration : IEntityTypeConfiguration<RoleEntity>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<RoleEntity> builder)
         {
             builder.Property(u => u.Name).IsRequired();
             builder.HasIndex(u => u.Name).IsUnique();
-            builder.HasData(new Role { Id = 1, Name = "Admin" });
-            builder.HasData(new Role { Id = 2, Name = "Customer" });
-            builder.HasData(new Role { Id = 3, Name = "Master" });
+            builder.HasData(new RoleEntity { Id = 1, Name = "Admin" });
+            builder.HasData(new RoleEntity { Id = 2, Name = "Customer" });
+            builder.HasData(new RoleEntity { Id = 3, Name = "Master" });
             builder.HasMany(u => u.Users);
         }
     }

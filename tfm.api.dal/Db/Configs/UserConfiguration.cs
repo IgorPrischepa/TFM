@@ -4,9 +4,9 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<User>
+    internal class UserConfiguration : IEntityTypeConfiguration<UserEntity>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
             builder.Property(u => u.Email).IsRequired();
             builder.HasIndex(u => u.Email).IsUnique();

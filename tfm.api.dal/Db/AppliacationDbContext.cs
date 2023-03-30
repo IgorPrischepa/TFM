@@ -5,25 +5,25 @@ namespace tfm.api.dal.Db
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserEntity> Users { get; set; } = null!;
 
-        public DbSet<Contact> Contacts { get; set; } = null!;
+        public DbSet<ContactEntity> Contacts { get; set; } = null!;
 
-        public DbSet<Role> Roles { get; set; } = null!;
+        public DbSet<RoleEntity> Roles { get; set; } = null!;
 
-        public DbSet<Example> Examples { get; set; } = null!;
+        public DbSet<ExampleEntity> Examples { get; set; } = null!;
 
-        public DbSet<PhotoFile> PhotoFiles { get; set; } = null!;
+        public DbSet<PhotoFileEntity> PhotoFiles { get; set; } = null!;
 
-        public DbSet<Master> Masters { get; set; } = null!;
+        public DbSet<MasterEntity> Masters { get; set; } = null!;
 
-        public DbSet<StylePrice> StylePrices { get; set; } = null!;
+        public DbSet<StylePriceEntity> StylePrices { get; set; } = null!;
 
-        public DbSet<Style> Styles { get; set; } = null!;
+        public DbSet<StyleEntity> Styles { get; set; } = null!;
 
-        public DbSet<Booking> Bookings { get; set; } = null!;
+        public DbSet<BookingEntity> Bookings { get; set; } = null!;
 
-        public DbSet<Customer> Customers { get; set; } = null!;
+        public DbSet<CustomerEntity> Customers { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
