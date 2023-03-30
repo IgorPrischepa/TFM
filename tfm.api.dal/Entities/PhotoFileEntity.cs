@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.dal.Entities
 {
-    public class PhotoFile
+    public class PhotoFileEntity
     {
         public int Id { get; set; }
 
@@ -8,6 +8,6 @@
 
         public int ExampleId { get; set; }
 
-        public Example Example { get; set; } = null!;
+        public ExampleEntity Example { get; set; } = null!;
     }
 }

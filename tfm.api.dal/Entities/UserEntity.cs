@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.dal.Entities
 {
-    public class User
+    public class UserEntity
     {
         public int Id { get; set; }
 
@@ -12,9 +12,9 @@
 
         public string LastName { get; set; } = null!;
 
-        public ICollection<Contact> Contacts { get; set; } = null!;
+        public ICollection<ContactEntity> Contacts { get; set; } = null!;
 
-        public ICollection<Role> Roles { get; set; } = null!;
+        public ICollection<RoleEntity> Roles { get; set; } = null!;
 
         public string PasswordHash { get; set; } = null!;
     }

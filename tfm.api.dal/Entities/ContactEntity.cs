@@ -2,13 +2,13 @@
 
 namespace tfm.api.dal.Entities
 {
-    public class Contact
+    public class ContactEntity
     {
         public int Id { get; set; }
 
         public int UserId { get; set; }
 
-        public User User { get; set; } = null!;
+        public UserEntity User { get; set; } = null!;
 
         public string Value { get; set; } = null!;
 

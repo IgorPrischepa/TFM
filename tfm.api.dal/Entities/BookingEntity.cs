@@ -2,15 +2,15 @@
 
 namespace tfm.api.dal.Entities
 {
-    public class Booking
+    public class BookingEntity
     {
         public int Id { get; set; }
 
-        public StylePrice StylePrice { get; set; } = null!;
+        public StylePriceEntity StylePrice { get; set; } = null!;
 
         public int CustomerId { get; set; }
 
-        public Customer Customer { get; set; } = null!;
+        public CustomerEntity Customer { get; set; } = null!;
 
         public DateTime BookingTime { get; set; }
 
