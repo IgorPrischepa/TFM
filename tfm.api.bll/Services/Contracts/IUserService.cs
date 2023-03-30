@@ -1,4 +1,4 @@
-﻿using tfm.api.bll.DTO;
+﻿using tfm.api.bll.DTO.User;
 
 namespace tfm.api.bll.Services.Contracts
 {

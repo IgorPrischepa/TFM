@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using tfm.api.bll.DTO;
+using tfm.api.bll.DTO.Style;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;

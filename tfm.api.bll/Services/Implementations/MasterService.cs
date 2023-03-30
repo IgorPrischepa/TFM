@@ -1,4 +1,4 @@
-﻿using tfm.api.bll.DTO;
+﻿using tfm.api.bll.DTO.Master;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -22,6 +22,11 @@ namespace tfm.api.bll.Services.Implementations
             _masters = masterRepo;
             _styles = styleRepo;
             _stylePrices = stylePrice;
+        }
+
+        public Task AddExampleAsync(AddMasterExampleDto masterExample)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<int> AddNewAsync(int id)

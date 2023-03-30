@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using tfm.api.bll.DTO;
+using tfm.api.bll.DTO.User;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -73,7 +73,7 @@ namespace tfm.api.bll.Services.Implementations
                 PasswordHash = BC.HashPassword(user.Password)
             };
 
-            _logger.LogInformation("New user is ready. Add roles");
+            _logger.LogInformation("New user is ready. Add roless");
 
             RoleEntity? customerRole = await _rolesRepo.FindByNameAsync(Constants.CustomerRoleName);
 
@@ -82,6 +82,8 @@ namespace tfm.api.bll.Services.Implementations
                 _logger.LogCritical("Role can't be finded. Create new custemer impossible.");
                 throw new Exception($"Role: {Constants.CustomerRoleName}, can't be finded.");
             }
+
+            newUser.Roles ??= new List<RoleEntity>();
 
             newUser.Roles.Add(customerRole);
 

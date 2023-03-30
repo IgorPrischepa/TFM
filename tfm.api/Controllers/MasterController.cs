@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using tfm.api.bll.DTO;
+using tfm.api.bll.DTO.Master;
 using tfm.api.bll.Services.Contracts;
 
 namespace tfm.api.Controllers
@@ -69,11 +69,28 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpDelete("DeletePrice")]
-        public async Task<IActionResult> RemovePriceAsync(int stylePrice)
+        public async Task<IActionResult> DeletePriceAsync(int stylePrice)
         {
             try
             {
                 await _masterService.DeletePriceAsync(stylePrice);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.StackTrace);
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Policy = "Master")]
+        [HttpPost("AddExample"), DisableRequestSizeLimit]
+        public async Task<IActionResult> AddExampleAsync([FromForm]AddMasterExampleDto masterExample)
+        {
+            try
+            {
+                await _masterService.AddExampleAsync(masterExample);
+
                 return Ok();
             }
             catch (Exception ex)

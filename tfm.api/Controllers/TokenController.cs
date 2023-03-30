@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using tfm.api.bll.DTO;
+using tfm.api.bll.DTO.User;
 using tfm.api.bll.Services.Contract;
 
 namespace tfm.api.Controllers

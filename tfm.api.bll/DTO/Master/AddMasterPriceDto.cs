@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace tfm.api.bll.DTO
+namespace tfm.api.bll.DTO.Master
 {
     public sealed class AddMasterPriceDto
     {

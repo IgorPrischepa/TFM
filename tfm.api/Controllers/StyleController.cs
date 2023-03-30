@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using tfm.api.bll.DTO;
+using tfm.api.bll.DTO.Style;
 using tfm.api.bll.Services.Contracts;
 
 namespace tfm.api.Controllers
