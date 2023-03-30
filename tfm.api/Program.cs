@@ -82,6 +82,7 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IRolesRepo, RoleRepo>();
 builder.Services.AddScoped<IStyleRepo, StyleRepo>();
 builder.Services.AddScoped<IStylePriceRepo, StylePriceRepo>();
+builder.Services.AddScoped<IExamplesRepo, ExamplesRepo>();
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();

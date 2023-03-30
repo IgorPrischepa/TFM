@@ -26,7 +26,7 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task<int> AddNewAsync(int id)
         {
-            User? user = await _users.FindByIdAsync(id)
+            UserEntity? user = await _users.FindByIdAsync(id)
                             ?? throw new ArgumentException("Invalid user id.");
 
             return await _masters.AddNewAsync(user);
@@ -34,13 +34,13 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task AddPriceAsync(AddMasterPriceDto newMasterPrice)
         {
-            Style? targetStyle = await _styles.GetAsync(newMasterPrice.StyleId)
+            StyleEntity? targetStyle = await _styles.GetAsync(newMasterPrice.StyleId)
                             ?? throw new NotFoundException($"Style didn't finded. Check value = {newMasterPrice.StyleId}");
 
-            Master? targetMaster = await _masters.GetAsync(newMasterPrice.MasterId)
+            MasterEntity? targetMaster = await _masters.GetAsync(newMasterPrice.MasterId)
                             ?? throw new NotFoundException($"Master didn't finded. Check value = {newMasterPrice.MasterId}");
 
-            StylePrice stylePrice = new()
+            StylePriceEntity stylePrice = new()
             {
                 Master = targetMaster,
                 Style = targetStyle,

@@ -32,7 +32,7 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task<BaseUserDto?> GetUserAsync(string userEmail, string password)
         {
-            User? targetUser = await _userRepo.FindByEmailAsync(userEmail);
+            UserEntity? targetUser = await _userRepo.FindByEmailAsync(userEmail);
 
             if (targetUser == null)
             {
@@ -64,7 +64,7 @@ namespace tfm.api.bll.Services.Implementations
             }
             // create Only customers
 
-            User newUser = new()
+            UserEntity newUser = new()
             {
                 Email = user.Email,
                 FirstName = user.FirstName,
@@ -75,10 +75,7 @@ namespace tfm.api.bll.Services.Implementations
 
             _logger.LogInformation("New user is ready. Add roles");
 
-
-            newUser.Roles ??= new List<Role>();
-
-            Role? customerRole = await _rolesRepo.FindByNameAsync(Constants.CustomerRoleName);
+            RoleEntity? customerRole = await _rolesRepo.FindByNameAsync(Constants.CustomerRoleName);
 
             if (customerRole == null)
             {

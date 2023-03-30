@@ -24,7 +24,7 @@ namespace tfm.api.bll.Services.Implementations
                 throw new ArgumentNullException(nameof(newStyle));
             }
 
-            return await _styles.AddAsync(new Role() { Name = newStyle.StyleName });
+            return await _styles.AddAsync(new RoleEntity() { Name = newStyle.StyleName });
         }
 
         public async Task DeleteAsync(int styleId)
