@@ -52,7 +52,6 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 // Connect to PostgreSQL Database
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
@@ -84,12 +83,15 @@ builder.Services.AddScoped<IStyleRepo, StyleRepo>();
 builder.Services.AddScoped<IStylePriceRepo, StylePriceRepo>();
 builder.Services.AddScoped<IExamplesRepo, ExamplesRepo>();
 builder.Services.AddScoped<IMasterRepo, MasterRepo>();
+builder.Services.AddScoped<IPhotoFileRepo, PhotoFileRepo>();
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJWTAuthService, JWTAuthService>();
 builder.Services.AddScoped<IStyleService, StyleService>();
 builder.Services.AddScoped<IMasterService, MasterService>();
+builder.Services.AddScoped<IExamplesService, ExamplesService>();
+builder.Services.AddScoped<IPhotoFileService, PhotoFileService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

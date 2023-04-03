@@ -24,7 +24,7 @@ namespace tfm.api.bll.Services.Implementations
         {
             if (userId < 0)
             {
-                throw new ArgumentOutOfRangeException("UserId can't be less than zero.");
+                throw new ArgumentOutOfRangeException(nameof(userId), "UserId can't be less than zero.");
             }
 
             await _userRepo.DeleteAsync(userId);

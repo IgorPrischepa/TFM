@@ -38,5 +38,10 @@ namespace tfm.api.dal.Repos.Implemetations
 
             await _db.SaveChangesAsync();
         }
+
+        public async Task<bool> IsExistAsync(int masterId, int styleId)
+        {
+            return await _db.StylePrices.AnyAsync(_ => _.MasterId == masterId && _.StyleId == styleId);
+        }
     }
 }

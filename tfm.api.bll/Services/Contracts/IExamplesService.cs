@@ -1,11 +1,11 @@
 ﻿using tfm.api.dal.Entities;
 
-namespace tfm.api.dal.Repos.Contracts
+namespace tfm.api.bll.Services.Contracts
 {
-    public interface IExamplesRepo
+    public interface IExamplesService
     {
         Task<int> AddAsync(ExampleEntity exampleEntity);
+
         Task<int> CountAsync(int masterId, int styleId);
-        Task DeleteAsync(int Id);
     }
 }

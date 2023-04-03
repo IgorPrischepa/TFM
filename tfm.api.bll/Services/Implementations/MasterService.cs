@@ -12,21 +12,51 @@ namespace tfm.api.bll.Services.Implementations
         private readonly IMasterRepo _masters;
         private readonly IStyleRepo _styles;
         private readonly IStylePriceRepo _stylePrices;
+        private readonly IExamplesService _examples;
+        private readonly IPhotoFileService _photoFiles;
 
         public MasterService(IUserRepo userService,
                             IMasterRepo masterRepo,
                             IStylePriceRepo stylePrice,
-                            IStyleRepo styleRepo)
+                            IStyleRepo styleRepo,
+                            IExamplesService examples,
+                            IPhotoFileService photoFileService)
         {
             _users = userService;
             _masters = masterRepo;
             _styles = styleRepo;
             _stylePrices = stylePrice;
+            _examples = examples;
+            _photoFiles = photoFileService;
         }
 
-        public Task AddExampleAsync(AddMasterExampleDto masterExample)
+        public async Task AddExampleAsync(AddMasterExampleDto masterExample)
         {
-            throw new NotImplementedException();
+            if (!await _stylePrices.IsExistAsync(masterExample.MasterId, masterExample.StyleId))
+            {
+                throw new MissingStyleException("Master Id or style id is invalid. Ensure style is existing for master before assign.");
+            };
+
+            int examplesCount = await _examples.CountAsync(masterExample.MasterId, masterExample.StyleId);
+
+            if (examplesCount == 5)
+            {
+                throw new TooManyExamplesException("For one style and master allowed less or eqaual to 5 pics.");
+            }
+
+            int exampleId = await _examples.AddAsync(new ExampleEntity()
+            {
+                MasterId = masterExample.MasterId,
+                StyleId = masterExample.StyleId,
+                ShortDescription = masterExample.ShortDescription
+            });
+
+            if (exampleId == 0)
+            {
+                throw new ArgumentOutOfRangeException("Example id can't be less or equals to zero");
+            }
+
+            await _photoFiles.AddAsync(masterExample.ExamplePhoto, exampleId);
         }
 
         public async Task<int> AddNewAsync(int id)

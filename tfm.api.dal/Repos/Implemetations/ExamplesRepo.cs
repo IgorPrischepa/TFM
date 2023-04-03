@@ -26,6 +26,11 @@ namespace tfm.api.dal.Repos.Implemetations
             return exampleEntity.Id;
         }
 
+        public async Task<int> CountAsync(int masterId, int styleId)
+        {
+            return await _db.Examples.CountAsync(_ => _.MasterId == masterId && _.StyleId == styleId);
+        }
+
         public async Task DeleteAsync(int Id)
         {
             ExampleEntity? example = await _db.Examples.FirstOrDefaultAsync(_ => _.Id == Id);

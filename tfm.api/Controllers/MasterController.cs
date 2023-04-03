@@ -85,10 +85,15 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpPost("AddExample"), DisableRequestSizeLimit]
-        public async Task<IActionResult> AddExampleAsync([FromForm]AddMasterExampleDto masterExample)
+        public async Task<IActionResult> AddExampleAsync([FromForm] AddMasterExampleDto masterExample)
         {
             try
             {
+                if (masterExample.ExamplePhoto == null || (masterExample.ExamplePhoto.Length == 0))
+                {
+                    return BadRequest("No file is selected or the file is empty.");
+                }
+
                 await _masterService.AddExampleAsync(masterExample);
 
                 return Ok();
