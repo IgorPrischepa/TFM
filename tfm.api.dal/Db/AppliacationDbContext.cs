@@ -28,6 +28,8 @@ namespace tfm.api.dal.Db
 
         public DbSet<ScheduleEntity> Schedule { get; set; } = null!;
 
+        public DbSet<ScheduleBlockerEntity> ScheduleBlockers { get; set; } = null!;
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

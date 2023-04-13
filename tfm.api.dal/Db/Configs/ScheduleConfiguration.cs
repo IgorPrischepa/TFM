@@ -8,6 +8,6 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<ScheduleEntity>
 {
     public void Configure(EntityTypeBuilder<ScheduleEntity> builder)
     {
-        builder.HasOne(_ => _.Master);
+        builder.HasOne(_ => _.Master).WithMany();
     }
 }
