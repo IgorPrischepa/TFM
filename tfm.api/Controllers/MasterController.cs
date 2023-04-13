@@ -140,7 +140,7 @@ namespace tfm.api.Controllers
                     return BadRequest();
                 }
 
-                ShowExampleDto example = await _masterService.GetExampleAsync(exampleId);
+                ShowExampleDto? example = await _masterService.GetExampleAsync(exampleId);
 
                 return Ok(example);
             }

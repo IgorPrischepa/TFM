@@ -15,7 +15,7 @@ using tfm.api.bll.Services.Implemetation;
 using tfm.api.dal.Db;
 using tfm.api.dal.Repos.Contracts;
 using tfm.api.dal.Repos.Implementations;
-using tfm.api.dal.Repos.Implemetations;
+using tfm.api.dal.Repos.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 

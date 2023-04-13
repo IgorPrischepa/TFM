@@ -4,7 +4,7 @@ using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
 using tfm.api.exceptions;
 
-namespace tfm.api.dal.Repos.Implemetations
+namespace tfm.api.dal.Repos.Implementation
 {
     public sealed class StylePriceRepo : IStylePriceRepo
     {
