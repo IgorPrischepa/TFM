@@ -7,5 +7,7 @@ namespace tfm.api.bll.Services.Contracts
         Task<int> AddAsync(IFormFile formFile, int exampleId);
 
         Task DeleteAsync(int photoId);
+
+        Task<string> GetBase64Async(int photoId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using tfm.api.bll.DTO.Example;
 using tfm.api.bll.DTO.Master;
 using tfm.api.bll.Services.Contracts;
 
@@ -119,6 +120,29 @@ namespace tfm.api.Controllers
                 await _masterService.DeleteExampleAsync(exampleId);
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.StackTrace);
+                return BadRequest();
+            }
+        }
+
+
+        [Authorize(Policy = "PublicData")]
+        [HttpGet("GetExample")]
+        public async Task<IActionResult> GetExampleAsync(int exampleId)
+        {
+            try
+            {
+                if (exampleId <= 0)
+                {
+                    return BadRequest();
+                }
+
+                ShowExampleDto example = await _masterService.GetExampleAsync(exampleId);
+
+                return Ok(example);
             }
             catch (Exception ex)
             {

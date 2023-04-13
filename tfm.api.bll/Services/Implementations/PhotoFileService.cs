@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
+using tfm.api.exceptions;
 
 namespace tfm.api.bll.Services.Implementations
 {
@@ -15,7 +16,7 @@ namespace tfm.api.bll.Services.Implementations
         {
             _photos = photoFileRepo;
             _basePath = Path.Combine(Environment.CurrentDirectory, configuration.GetValue<string>("PathToFiles"));
-            
+
             if (!Directory.Exists(_basePath))
             {
                 Directory.CreateDirectory(_basePath);
@@ -62,6 +63,26 @@ namespace tfm.api.bll.Services.Implementations
                 }
 
                 await _photos.DeleteAsync(photoId);
+            }
+        }
+
+        public async Task<string> GetBase64Async(int photoId)
+        {
+            PhotoFileEntity? photoFileEntity = await _photos.GetAsync(photoId);
+
+            if (photoFileEntity == null)
+            {
+                throw new NotFoundException("Can't find image with id {photoId}");
+            }
+
+            try
+            {
+                byte[] fileContent = await File.ReadAllBytesAsync(photoFileEntity.FilePath);
+                return Convert.ToBase64String(fileContent);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error occurred while reading file '{photoFileEntity.FilePath}'. {ex.Message}");
             }
         }
     }

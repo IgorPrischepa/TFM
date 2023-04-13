@@ -87,6 +87,25 @@ namespace tfm.api.bll.Services.Implementations
             await _examples.DeleteAsync(exampleId);
         }
 
+        public async Task<ShowExampleDto?> GetExampleAsync(int exampleId)
+        {
+            ExampleDto? example = await _examples.GetAsync(exampleId);
+
+            if (example == null)
+            {
+                return null;
+            }
+
+            return new ShowExampleDto()
+            {
+                Id = example.Id,
+                MasterId = example.MasterId,
+                StyleId = example.StyleId,
+                PhotoFile = await _photoFiles.GetBase64Async(exampleId),
+                ShortDescription = example.ShortDescription
+            };
+        }
+
         public async Task<int> AddNewAsync(int id)
         {
             UserEntity? user = await _users.FindByIdAsync(id)

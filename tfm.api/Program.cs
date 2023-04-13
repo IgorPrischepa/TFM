@@ -82,6 +82,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Customer", _ => { _.RequireRole("Customer"); });
     options.AddPolicy("Master", _ => { _.RequireRole("Master"); });
     options.AddPolicy("ExampleEditor", _ => { _.RequireRole("Master", "Admin"); });
+    options.AddPolicy("PublicData", _ => { _.RequireRole("Master", "Admin", "Customer"); });
 });
 
 //Repos

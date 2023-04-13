@@ -1,4 +1,5 @@
-﻿using tfm.api.bll.DTO.Master;
+﻿using tfm.api.bll.DTO.Example;
+using tfm.api.bll.DTO.Master;
 
 namespace tfm.api.bll.Services.Contracts
 {
@@ -21,5 +22,7 @@ namespace tfm.api.bll.Services.Contracts
         Task AddExampleAsync(AddMasterExampleDto masterExample);
         
         Task DeleteExampleAsync(int exampleId);
+        
+        Task<ShowExampleDto?> GetExampleAsync(int exampleId);
     }
 }
