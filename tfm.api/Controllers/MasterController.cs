@@ -104,5 +104,27 @@ namespace tfm.api.Controllers
                 return BadRequest();
             }
         }
+
+        [Authorize(Policy = "ExampleEditor")]
+        [HttpDelete("DeleteExample")]
+        public async Task<IActionResult> DeleteExampleAsync(int exampleId)
+        {
+            try
+            {
+                if (exampleId <= 0)
+                {
+                    return BadRequest();
+                }
+
+                await _masterService.DeleteExampleAsync(exampleId);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.StackTrace);
+                return BadRequest();
+            }
+        }
     }
 }

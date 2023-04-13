@@ -19,5 +19,7 @@ namespace tfm.api.bll.Services.Contracts
         Task DeletePriceAsync(int stylePriceId);
 
         Task AddExampleAsync(AddMasterExampleDto masterExample);
+        
+        Task DeleteExampleAsync(int exampleId);
     }
 }

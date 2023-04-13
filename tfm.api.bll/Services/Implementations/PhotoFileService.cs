@@ -15,7 +15,7 @@ namespace tfm.api.bll.Services.Implementations
         {
             _photos = photoFileRepo;
             _basePath = Path.Combine(Environment.CurrentDirectory, configuration.GetValue<string>("PathToFiles"));
-
+            
             if (!Directory.Exists(_basePath))
             {
                 Directory.CreateDirectory(_basePath);

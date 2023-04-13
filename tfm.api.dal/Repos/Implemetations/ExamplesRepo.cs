@@ -13,6 +13,7 @@ namespace tfm.api.dal.Repos.Implementations
         {
             _db = dbContext;
         }
+
         public async Task<int> AddAsync(ExampleEntity exampleEntity)
         {
             if (exampleEntity is null)
@@ -31,15 +32,32 @@ namespace tfm.api.dal.Repos.Implementations
             return await _db.Examples.CountAsync(_ => _.MasterId == masterId && _.StyleId == styleId);
         }
 
-        public async Task DeleteAsync(int Id)
+        public async Task DeleteAsync(int id)
         {
-            ExampleEntity? example = await _db.Examples.FirstOrDefaultAsync(_ => _.Id == Id);
+            ExampleEntity? example = await _db.Examples.FirstOrDefaultAsync(_ => _.Id == id);
 
             if (example != null)
             {
                 _db.Examples.Remove(example);
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<ExampleEntity?> GetAsync(int exampleId)
+        {
+            if (exampleId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(exampleId));
+            }
+
+            return await _db.Examples.FirstOrDefaultAsync(_ => _.Id == exampleId);
+        }
+
+        public async Task UpdateAsync(ExampleEntity example)
+        {
+            if (example == null) throw new ArgumentNullException(nameof(example));
+
+            await _db.SaveChangesAsync();
         }
     }
 }
