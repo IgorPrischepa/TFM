@@ -14,6 +14,7 @@ using tfm.api.bll.Services.Implementations;
 using tfm.api.bll.Services.Implemetation;
 using tfm.api.dal.Db;
 using tfm.api.dal.Repos.Contracts;
+using tfm.api.dal.Repos.Implementations;
 using tfm.api.dal.Repos.Implemetations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,8 +24,8 @@ var builder = WebApplication.CreateBuilder(args);
 //Logger config
 
 var configuration = new ConfigurationBuilder()
-                 .AddJsonFile("appsettings.json")
-                 .Build();
+    .AddJsonFile("appsettings.json")
+    .Build();
 
 string tableName = "logs";
 
@@ -37,18 +38,23 @@ IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, Col
     { "exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
     { "properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
     { "props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },
-    { "machine_name", new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.ToString, NpgsqlDbType.Text, "l") }
+    {
+        "machine_name",
+        new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.ToString, NpgsqlDbType.Text, "l")
+    }
 };
 
 
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new ArgumentNullException("Default connections string can't be null.");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                          throw new ArgumentNullException("Default connections string can't be null.");
 
 Log.Logger = new LoggerConfiguration()
-        .WriteTo.Console()
-        .WriteTo.PostgreSQL(connectionString, tableName, columnWriters, needAutoCreateSchema: true, needAutoCreateTable: true)
-        .ReadFrom.Configuration(configuration)
-        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-        .CreateLogger();
+    .WriteTo.Console()
+    .WriteTo.PostgreSQL(connectionString, tableName, columnWriters, needAutoCreateSchema: true,
+        needAutoCreateTable: true)
+    .ReadFrom.Configuration(configuration)
+    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+    .CreateLogger();
 builder.Host.UseSerilog();
 
 // Connect to PostgreSQL Database
@@ -74,6 +80,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", _ => { _.RequireRole("Admin"); });
     options.AddPolicy("Manager", _ => { _.RequireRole("Manager"); });
     options.AddPolicy("Customer", _ => { _.RequireRole("Customer"); });
+    options.AddPolicy("Master", _ => { _.RequireRole("Master"); });
 });
 
 //Repos
@@ -109,12 +116,15 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
-            new OpenApiSecurityScheme{
-            Reference = new OpenApiReference{
-                Id = "JWT Bearer",
-                Type = ReferenceType.SecurityScheme
-            }
-            }, new List<string>()
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "JWT Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            new List<string>()
         }
     });
 });

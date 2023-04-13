@@ -30,7 +30,7 @@ namespace tfm.api.bll.Services.Implementations
             string endFileName = Path.Combine(_basePath, Path.GetRandomFileName());
 
             // Save the file to the server
-            using (var stream = new FileStream(endFileName, FileMode.Create))
+            await using (var stream = new FileStream(endFileName, FileMode.Create))
             {
                 await formFile.CopyToAsync(stream);
             }

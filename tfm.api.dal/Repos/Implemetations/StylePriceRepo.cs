@@ -29,10 +29,12 @@ namespace tfm.api.dal.Repos.Implemetations
             return stylePrice.Id;
         }
 
-        public async Task DeleteAsync(int stylePriceid)
+        public async Task DeleteAsync(int stylePriceId)
         {
-            StylePriceEntity? entity = await _db.StylePrices.FirstOrDefaultAsync(_ => _.Id == stylePriceid)
-                                ?? throw new NotFoundException($"StylePriceId = {stylePriceid}. Can't find specified item.");
+            if (stylePriceId <= 0) throw new ArgumentOutOfRangeException(nameof(stylePriceId));
+            
+            StylePriceEntity? entity = await _db.StylePrices.FirstOrDefaultAsync(_ => _.Id == stylePriceId)
+                                       ?? throw new NotFoundException($"StylePriceId = {stylePriceId}. Can't find specified item.");
 
             _db.StylePrices.Remove(entity);
 
@@ -41,6 +43,8 @@ namespace tfm.api.dal.Repos.Implemetations
 
         public async Task<bool> IsExistAsync(int masterId, int styleId)
         {
+            if (masterId <= 0) throw new ArgumentOutOfRangeException(nameof(masterId));
+            
             return await _db.StylePrices.AnyAsync(_ => _.MasterId == masterId && _.StyleId == styleId);
         }
     }

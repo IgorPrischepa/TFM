@@ -6,7 +6,7 @@ namespace tfm.api.dal.Repos.Contracts
     {
         Task<int> AddAsync(StylePriceEntity stylePrice);
 
-        Task DeleteAsync(int stylePriceid);
+        Task DeleteAsync(int stylePriceId);
 
         Task<bool> IsExistAsync(int masterId, int styleId);
     }
