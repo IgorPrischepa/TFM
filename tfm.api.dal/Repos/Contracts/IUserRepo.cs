@@ -4,16 +4,16 @@ namespace tfm.api.dal.Repos.Contracts
 {
     public interface IUserRepo
     {
-        Task<int> AddAsync(User user);
+        Task<int> AddAsync(UserEntity user);
 
-        Task UpdateAsync(User user);
+        Task UpdateAsync(UserEntity user);
 
-        Task DeleteAsync(User user);
+        Task DeleteAsync(UserEntity user);
 
         Task DeleteAsync(int userId);
 
-        Task<User?> FindByEmailAsync(string email);
+        Task<UserEntity?> FindByEmailAsync(string email);
 
-        Task<User?> FindByIdAsync(int Id);
+        Task<UserEntity?> FindByIdAsync(int Id);
     }
 }

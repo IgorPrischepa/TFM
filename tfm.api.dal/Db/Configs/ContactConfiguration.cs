@@ -4,9 +4,9 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    internal class ContactConfiguration : IEntityTypeConfiguration<Contact>
+    internal class ContactConfiguration : IEntityTypeConfiguration<ContactEntity>
     {
-        public void Configure(EntityTypeBuilder<Contact> builder)
+        public void Configure(EntityTypeBuilder<ContactEntity> builder)
         {
             builder.HasOne(u => u.User);
             builder.HasKey(u => u.Id);

@@ -4,9 +4,9 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    internal class StylePriceConfiguration : IEntityTypeConfiguration<StylePrice>
+    internal class StylePriceConfiguration : IEntityTypeConfiguration<StylePriceEntity>
     {
-        public void Configure(EntityTypeBuilder<StylePrice> builder)
+        public void Configure(EntityTypeBuilder<StylePriceEntity> builder)
         {
             builder.HasOne(u => u.Master);
             builder.HasOne(u => u.Style);

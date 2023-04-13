@@ -4,7 +4,7 @@ using tfm.api.dal.Db;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
 
-namespace tfm.api.dal.Repos.Implemetations
+namespace tfm.api.dal.Repos.Implementations
 {
     public sealed class RoleRepo : IRolesRepo
     {
@@ -15,7 +15,7 @@ namespace tfm.api.dal.Repos.Implemetations
             _db = context;
         }
 
-        public async Task<int> AddAsync(Role role)
+        public async Task<int> AddAsync(RoleEntity role)
         {
             if (role == null)
             {
@@ -28,7 +28,7 @@ namespace tfm.api.dal.Repos.Implemetations
             return role.Id;
         }
 
-        public async Task<Role?> FindByNameAsync(string name)
+        public async Task<RoleEntity?> FindByNameAsync(string name)
         {
             if (string.IsNullOrEmpty(name))
             {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using tfm.api.bll.DTO;
+using tfm.api.bll.DTO.Style;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -24,7 +24,7 @@ namespace tfm.api.bll.Services.Implementations
                 throw new ArgumentNullException(nameof(newStyle));
             }
 
-            return await _styles.AddAsync(new Role() { Name = newStyle.StyleName });
+            return await _styles.AddAsync(new RoleEntity() { Name = newStyle.StyleName });
         }
 
         public async Task DeleteAsync(int styleId)

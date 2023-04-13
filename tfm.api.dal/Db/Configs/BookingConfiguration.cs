@@ -4,9 +4,9 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    internal class BookingConfiguration : IEntityTypeConfiguration<Booking>
+    internal class BookingConfiguration : IEntityTypeConfiguration<BookingEntity>
     {
-        public void Configure(EntityTypeBuilder<Booking> builder)
+        public void Configure(EntityTypeBuilder<BookingEntity> builder)
         {
             builder.HasOne(b => b.StylePrice);
             builder.HasOne(b => b.Customer);

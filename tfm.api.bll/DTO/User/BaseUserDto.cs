@@ -1,4 +1,4 @@
-﻿namespace tfm.api.bll.DTO
+﻿namespace tfm.api.bll.DTO.User
 {
     public sealed class BaseUserDto
     {

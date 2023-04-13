@@ -4,13 +4,13 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    internal class ExampleConfiguration : IEntityTypeConfiguration<Example>
+    internal class ExampleConfiguration : IEntityTypeConfiguration<ExampleEntity>
     {
-        public void Configure(EntityTypeBuilder<Example> builder)
+        public void Configure(EntityTypeBuilder<ExampleEntity> builder)
         {
             builder.HasOne(u => u.PhotoFile)
                    .WithOne(e => e.Example)
-                   .HasForeignKey<PhotoFile>(k => k.ExampleId);
+                   .HasForeignKey<PhotoFileEntity>(k => k.ExampleId);
         }
     }
 }

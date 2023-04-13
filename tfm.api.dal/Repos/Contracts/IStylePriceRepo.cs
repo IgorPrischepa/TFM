@@ -4,8 +4,10 @@ namespace tfm.api.dal.Repos.Contracts
 {
     public interface IStylePriceRepo
     {
-        Task<int> AddAsync(StylePrice stylePrice);
+        Task<int> AddAsync(StylePriceEntity stylePrice);
 
-        Task DeleteAsync(int stylePriceid);
+        Task DeleteAsync(int stylePriceId);
+
+        Task<bool> IsExistAsync(int masterId, int styleId);
     }
 }

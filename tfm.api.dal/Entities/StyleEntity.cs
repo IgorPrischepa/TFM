@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.dal.Entities
 {
-    public class Style
+    public class StyleEntity
     {
         public int Id { get; set; }
 
@@ -8,6 +8,6 @@
 
         public string Description { get; set; } = string.Empty;
 
-        public IEnumerable<StylePrice> Prices { get; set; } = null!;
+        public IEnumerable<StylePriceEntity> Prices { get; set; } = null!;
     }
 }

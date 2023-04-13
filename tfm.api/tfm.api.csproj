@@ -12,6 +12,10 @@
     <Content Remove="log\**" />
     <EmbeddedResource Remove="log\**" />
     <None Remove="log\**" />
+    <Compile Remove="PhotoExamples\**" />
+    <EmbeddedResource Remove="PhotoExamples\**" />
+    <Content Remove="PhotoExamples\**" />
+    <None Remove="PhotoExamples\**" />
   </ItemGroup>
 
   <ItemGroup>

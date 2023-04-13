@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\tfm.api.dal\tfm.api.dal.csproj" />
-    <ProjectReference Include="..\tfm.exceptions\tfm.api.exceptions.csproj" />
+    <ProjectReference Include="..\tfm.api.exceptions\tfm.api.exceptions.csproj" />
   </ItemGroup>
 
 </Project>

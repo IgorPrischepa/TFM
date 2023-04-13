@@ -1,4 +1,6 @@
-﻿using tfm.api.bll.DTO;
+﻿using Microsoft.Extensions.Logging;
+using tfm.api.bll.DTO.Example;
+using tfm.api.bll.DTO.Master;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -12,35 +14,117 @@ namespace tfm.api.bll.Services.Implementations
         private readonly IMasterRepo _masters;
         private readonly IStyleRepo _styles;
         private readonly IStylePriceRepo _stylePrices;
+        private readonly IExamplesService _examples;
+        private readonly IPhotoFileService _photoFiles;
+        private readonly ILogger<MasterService> _logger;
 
         public MasterService(IUserRepo userService,
-                            IMasterRepo masterRepo,
-                            IStylePriceRepo stylePrice,
-                            IStyleRepo styleRepo)
+            IMasterRepo masterRepo,
+            IStylePriceRepo stylePrice,
+            IStyleRepo styleRepo,
+            IExamplesService examples,
+            IPhotoFileService photoFileService,
+            ILogger<MasterService> logger)
         {
             _users = userService;
             _masters = masterRepo;
             _styles = styleRepo;
             _stylePrices = stylePrice;
+            _examples = examples;
+            _photoFiles = photoFileService;
+            _logger = logger;
+        }
+
+        public async Task AddExampleAsync(AddMasterExampleDto masterExample)
+        {
+            if (!await _stylePrices.IsExistAsync(masterExample.MasterId, masterExample.StyleId))
+            {
+                throw new MissingStyleException(
+                    "Master Id or style id is invalid. Ensure style is existing for master before assign.");
+            }
+
+            int examplesCount = await _examples.CountAsync(masterExample.MasterId, masterExample.StyleId);
+
+            if (examplesCount == 5)
+            {
+                throw new TooManyExamplesException("For one style and master allowed less or eqaual to 5 pics.");
+            }
+
+            int exampleId = await _examples.AddAsync(new ExampleEntity()
+            {
+                MasterId = masterExample.MasterId,
+                StyleId = masterExample.StyleId,
+                ShortDescription = masterExample.ShortDescription
+            });
+
+            if (exampleId == 0)
+            {
+                throw new ArgumentOutOfRangeException("Example id can't be less or equals to zero");
+            }
+
+            int photoId = await _photoFiles.AddAsync(masterExample.ExamplePhoto, exampleId);
+
+            if (photoId == 0)
+            {
+                throw new ArgumentOutOfRangeException("Photo id can't be less or equals to zero");
+            }
+
+            await _examples.AttachPhotoAsync(exampleId, photoId);
+        }
+
+        public async Task DeleteExampleAsync(int exampleId)
+        {
+            ExampleDto? example = await _examples.GetAsync(exampleId);
+
+            if (example == null)
+            {
+                _logger.LogWarning("Example doesn't found");
+                return;
+            }
+
+            await _photoFiles.DeleteAsync(example.PhotoFileId);
+
+            await _examples.DeleteAsync(exampleId);
+        }
+
+        public async Task<ShowExampleDto?> GetExampleAsync(int exampleId)
+        {
+            ExampleDto? example = await _examples.GetAsync(exampleId);
+
+            if (example == null)
+            {
+                return null;
+            }
+
+            return new ShowExampleDto()
+            {
+                Id = example.Id,
+                MasterId = example.MasterId,
+                StyleId = example.StyleId,
+                PhotoFile = await _photoFiles.GetBase64Async(exampleId),
+                ShortDescription = example.ShortDescription
+            };
         }
 
         public async Task<int> AddNewAsync(int id)
         {
-            User? user = await _users.FindByIdAsync(id)
-                            ?? throw new ArgumentException("Invalid user id.");
+            UserEntity? user = await _users.FindByIdAsync(id)
+                               ?? throw new ArgumentException("Invalid user id.");
 
             return await _masters.AddNewAsync(user);
         }
 
         public async Task AddPriceAsync(AddMasterPriceDto newMasterPrice)
         {
-            Style? targetStyle = await _styles.GetAsync(newMasterPrice.StyleId)
-                            ?? throw new NotFoundException($"Style didn't finded. Check value = {newMasterPrice.StyleId}");
+            StyleEntity? targetStyle = await _styles.GetAsync(newMasterPrice.StyleId)
+                                       ?? throw new NotFoundException(
+                                           $"Style didn't finded. Check value = {newMasterPrice.StyleId}");
 
-            Master? targetMaster = await _masters.GetAsync(newMasterPrice.MasterId)
-                            ?? throw new NotFoundException($"Master didn't finded. Check value = {newMasterPrice.MasterId}");
+            MasterEntity? targetMaster = await _masters.GetAsync(newMasterPrice.MasterId)
+                                         ?? throw new NotFoundException(
+                                             $"Master didn't finded. Check value = {newMasterPrice.MasterId}");
 
-            StylePrice stylePrice = new()
+            StylePriceEntity stylePrice = new()
             {
                 Master = targetMaster,
                 Style = targetStyle,

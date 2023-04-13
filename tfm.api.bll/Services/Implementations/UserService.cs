@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using tfm.api.bll.DTO;
+using tfm.api.bll.DTO.User;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -24,7 +24,7 @@ namespace tfm.api.bll.Services.Implementations
         {
             if (userId < 0)
             {
-                throw new ArgumentOutOfRangeException("UserId can't be less than zero.");
+                throw new ArgumentOutOfRangeException(nameof(userId), "UserId can't be less than zero.");
             }
 
             await _userRepo.DeleteAsync(userId);
@@ -32,7 +32,7 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task<BaseUserDto?> GetUserAsync(string userEmail, string password)
         {
-            User? targetUser = await _userRepo.FindByEmailAsync(userEmail);
+            UserEntity? targetUser = await _userRepo.FindByEmailAsync(userEmail);
 
             if (targetUser == null)
             {
@@ -64,7 +64,7 @@ namespace tfm.api.bll.Services.Implementations
             }
             // create Only customers
 
-            User newUser = new()
+            UserEntity newUser = new()
             {
                 Email = user.Email,
                 FirstName = user.FirstName,
@@ -73,18 +73,17 @@ namespace tfm.api.bll.Services.Implementations
                 PasswordHash = BC.HashPassword(user.Password)
             };
 
-            _logger.LogInformation("New user is ready. Add roles");
+            _logger.LogInformation("New user is ready. Add roless");
 
-
-            newUser.Roles ??= new List<Role>();
-
-            Role? customerRole = await _rolesRepo.FindByNameAsync(Constants.CustomerRoleName);
+            RoleEntity? customerRole = await _rolesRepo.FindByNameAsync(Constants.CustomerRoleName);
 
             if (customerRole == null)
             {
                 _logger.LogCritical("Role can't be finded. Create new custemer impossible.");
                 throw new Exception($"Role: {Constants.CustomerRoleName}, can't be finded.");
             }
+
+            newUser.Roles ??= new List<RoleEntity>();
 
             newUser.Roles.Add(customerRole);
 

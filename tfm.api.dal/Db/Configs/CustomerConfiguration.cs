@@ -4,9 +4,9 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
+    internal class CustomerConfiguration : IEntityTypeConfiguration<CustomerEntity>
     {
-        public void Configure(EntityTypeBuilder<Customer> builder)
+        public void Configure(EntityTypeBuilder<CustomerEntity> builder)
         {
             builder.HasOne(u => u.User);
         }

@@ -4,9 +4,9 @@ using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
 {
-    internal class MasterConfiguration : IEntityTypeConfiguration<Master>
+    internal class MasterConfiguration : IEntityTypeConfiguration<MasterEntity>
     {
-        public void Configure(EntityTypeBuilder<Master> builder)
+        public void Configure(EntityTypeBuilder<MasterEntity> builder)
         {
             builder.HasOne(u => u.User).WithOne();
             builder.HasKey(u => u.Id);
