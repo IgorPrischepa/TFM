@@ -82,7 +82,7 @@ namespace tfm.api.bll.Services.Implementations
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error occurred while reading file '{photoFileEntity.FilePath}'. {ex.Message}");
+                throw new FileLoadException($"Error occurred while reading file '{photoFileEntity.FilePath}'. {ex.Message}");
             }
         }
     }

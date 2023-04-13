@@ -101,7 +101,7 @@ namespace tfm.api.bll.Services.Implementations
                 Id = example.Id,
                 MasterId = example.MasterId,
                 StyleId = example.StyleId,
-                PhotoFile = await _photoFiles.GetBase64Async(exampleId),
+                PhotoBase64 = await _photoFiles.GetBase64Async(exampleId),
                 ShortDescription = example.ShortDescription
             };
         }
