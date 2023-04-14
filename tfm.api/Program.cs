@@ -27,7 +27,7 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-string tableName = "logs";
+const string tableName = "logs";
 
 IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
 {
@@ -93,6 +93,8 @@ builder.Services.AddScoped<IStylePriceRepo, StylePriceRepo>();
 builder.Services.AddScoped<IExamplesRepo, ExamplesRepo>();
 builder.Services.AddScoped<IMasterRepo, MasterRepo>();
 builder.Services.AddScoped<IPhotoFileRepo, PhotoFileRepo>();
+builder.Services.AddScoped<IScheduleRepo, ScheduleRepo>();
+builder.Services.AddScoped<IScheduleBlockerRepo, ScheduleBlockerRepo>();
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
@@ -101,6 +103,7 @@ builder.Services.AddScoped<IStyleService, StyleService>();
 builder.Services.AddScoped<IMasterService, MasterService>();
 builder.Services.AddScoped<IExamplesService, ExamplesService>();
 builder.Services.AddScoped<IPhotoFileService, PhotoFileService>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

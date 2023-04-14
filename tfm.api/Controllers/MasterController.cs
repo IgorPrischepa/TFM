@@ -19,14 +19,14 @@ namespace tfm.api.Controllers
             _logger = logger;
         }
 
-
         [Authorize(Policy = "Admin")]
         [HttpPost("Add/{userId:min(1)}")]
         public async Task<IActionResult> AddMasterAsync(int userId)
         {
             try
             {
-                return Ok(await _masterService.AddNewAsync(userId));
+                var masterId = await _masterService.AddNewAsync(userId);
+                return Ok(masterId.ToString());
             }
             catch (ArgumentException ex)
             {
@@ -127,7 +127,6 @@ namespace tfm.api.Controllers
                 return BadRequest();
             }
         }
-
 
         [Authorize(Policy = "PublicData")]
         [HttpGet("GetExample")]
