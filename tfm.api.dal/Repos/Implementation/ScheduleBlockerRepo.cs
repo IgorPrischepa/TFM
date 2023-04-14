@@ -40,4 +40,18 @@ public class ScheduleBlockerRepo : IScheduleBlockerRepo
     {
         return await _db.ScheduleBlockers.FirstOrDefaultAsync(_ => _.Id == id);
     }
+
+    public async Task<bool> CheckDatesOverlapAsync(DateTime startDate, DateTime endDate, int masterId)
+    {
+        return await _db.ScheduleBlockers.AsNoTracking().AnyAsync(_ => _.MasterId == masterId &&
+                                                                       (startDate >= _.StartDateTime &&
+                                                                        startDate <= _.EndDateTime &&
+                                                                        endDate >= _.StartDateTime &&
+                                                                        endDate <= _.EndDateTime));
+    }
+
+    public Task<List<ScheduleBlockerEntity>> GetMasterBlockersAsync(int masterId)
+    {
+        return _db.ScheduleBlockers.AsNoTracking().Where(_ => _.MasterId == masterId).ToListAsync();
+    }
 }

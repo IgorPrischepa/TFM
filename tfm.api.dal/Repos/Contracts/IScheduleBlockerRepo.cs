@@ -9,4 +9,7 @@ public interface IScheduleBlockerRepo
     Task DeleteAsync(int id);
 
     Task<ScheduleBlockerEntity?> GetAsync(int id);
+
+    Task<bool> CheckDatesOverlapAsync(DateTime startDate, DateTime endDate, int masterId);
+    Task<List<ScheduleBlockerEntity>> GetMasterBlockersAsync(int masterId);
 }

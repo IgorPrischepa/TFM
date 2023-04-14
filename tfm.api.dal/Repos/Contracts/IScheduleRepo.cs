@@ -9,4 +9,6 @@ public interface IScheduleRepo
     Task DeleteAsync(int id);
 
     Task<ScheduleEntity?> GetAsync(int id);
+
+    Task<bool> IsScheduledAsync(int masterId, DayOfWeek dayOfWeek);
 }

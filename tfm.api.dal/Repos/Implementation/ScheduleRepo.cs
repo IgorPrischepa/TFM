@@ -43,4 +43,9 @@ public class ScheduleRepo : IScheduleRepo
     {
         return _db.Schedule.FirstOrDefaultAsync(_ => _.Id == id);
     }
+
+    public async Task<bool> IsScheduledAsync(int masterId, DayOfWeek dayOfWeek)
+    {
+        return await _db.Schedule.AnyAsync(_ => _.DayOfWeek == dayOfWeek && _.MasterId == masterId);
+    }
 }
