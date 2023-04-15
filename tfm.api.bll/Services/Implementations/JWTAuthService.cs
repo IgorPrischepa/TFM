@@ -1,43 +1,43 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using tfm.api.bll.DTO.User;
 using tfm.api.bll.Services.Contract;
 using tfm.api.bll.Services.Contracts;
 
-namespace tfm.api.bll.Services.Implemetation
+namespace tfm.api.bll.Services.Implementations
 {
-    public class JWTAuthService : IJWTAuthService
+    public class JwtAuthService : IJWTAuthService
     {
         private readonly IUserService _userService;
-        private readonly ILogger<JWTAuthService> _logger;
+        private readonly ILogger<JwtAuthService> _logger;
 
         private readonly string _issuer;
         private readonly string _key;
         private readonly string _minutes;
         private readonly string _audience;
 
-        public JWTAuthService(IUserService userService, ILogger<JWTAuthService> logger, IConfiguration configuration)
+        public JwtAuthService(IUserService userService, ILogger<JwtAuthService> logger, IConfiguration configuration)
         {
             _userService = userService;
             _logger = logger;
 
             _audience = configuration["Jwt:audience"] ??
-                        throw new ArgumentNullException("Jwt:audience can't be null. Check appsettings.");
+                        throw new ArgumentNullException(nameof(configuration),"Jwt:audience can't be null. Check appsettings.");
             _issuer = configuration["Jwt:issuer"] ??
-                      throw new ArgumentNullException("Jwt:issuer can't be null. Check appsettings.");
+                      throw new ArgumentNullException(nameof(configuration),"Jwt:issuer can't be null. Check appsettings.");
             _key = configuration["Jwt:secret"] ??
-                   throw new ArgumentNullException("Jwt:secret can't be null. Check appsettings.");
+                   throw new ArgumentNullException(nameof(configuration),"Jwt:secret can't be null. Check appsettings.");
             _minutes = configuration["Jwt:accessTokenExpiration"] ??
-                       throw new ArgumentNullException("Jwt:accessTokenExpiration can't be null. Check appsettings.");
+                       throw new ArgumentNullException(nameof(configuration),"Jwt:accessTokenExpiration can't be null. Check appsettings.");
         }
 
         public async Task<string> GenerateTokenAsync(LoginUserDto user)
         {
-            _logger.LogInformation("Start generation token.");
+            _logger.LogInformation("Start generation token");
 
             var targetUser = await _userService.GetUserAsync(user.Email, user.Password);
 
@@ -47,7 +47,7 @@ namespace tfm.api.bll.Services.Implemetation
                 throw new ArgumentException($"{user} is not valid or doesn't exist.");
             }
 
-            _logger.LogInformation("User exists.");
+            _logger.LogInformation("User exists");
 
             List<Claim> claims = new()
             {

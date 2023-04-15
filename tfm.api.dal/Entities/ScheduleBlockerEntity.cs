@@ -12,5 +12,5 @@ public class ScheduleBlockerEntity
 
     public MasterEntity? Master { get; set; }
 
-    public string Reason { get; set; } = "Can't work at this day";
+    public string Reason { get; set; } = Constants.DefaultBlockerReason;
 }

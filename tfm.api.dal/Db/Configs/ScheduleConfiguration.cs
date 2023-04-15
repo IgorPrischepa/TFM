@@ -8,6 +8,9 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<ScheduleEntity>
 {
     public void Configure(EntityTypeBuilder<ScheduleEntity> builder)
     {
-        builder.HasOne(_ => _.Master).WithMany();
+        builder.HasOne(_ => _.Master)
+            .WithMany(_ => _.Schedules)
+            .HasForeignKey(_ => _.MasterId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

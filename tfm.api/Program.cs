@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NpgsqlTypes;
@@ -8,14 +7,7 @@ using Serilog.Events;
 using Serilog.Sinks.PostgreSQL;
 using Serilog.Sinks.PostgreSQL.ColumnWriters;
 using System.Text;
-using tfm.api.bll.Services.Contract;
-using tfm.api.bll.Services.Contracts;
-using tfm.api.bll.Services.Implementations;
-using tfm.api.bll.Services.Implemetation;
-using tfm.api.dal.Db;
-using tfm.api.dal.Repos.Contracts;
-using tfm.api.dal.Repos.Implementations;
-using tfm.api.dal.Repos.Implementation;
+using tfm.api.bll.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +18,6 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
-
-const string tableName = "logs";
 
 IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
 {
@@ -44,9 +34,11 @@ IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, Col
     }
 };
 
-
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-                          throw new ArgumentNullException("Default connections string can't be null.");
+                          throw new ArgumentNullException(nameof(connectionString),
+                              "Default connections string can't be null.");
+
+string tableName = builder.Configuration.GetValue<string>("SerilogTableName") ?? "logs";
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -57,9 +49,8 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Host.UseSerilog();
 
-// Connect to PostgreSQL Database
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
+// Connect to PostgresSQL Database
+builder.Services.AddAppDbContext(connectionString);
 
 //Auth
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -86,28 +77,16 @@ builder.Services.AddAuthorization(options =>
 });
 
 //Repos
-builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<IRolesRepo, RoleRepo>();
-builder.Services.AddScoped<IStyleRepo, StyleRepo>();
-builder.Services.AddScoped<IStylePriceRepo, StylePriceRepo>();
-builder.Services.AddScoped<IExamplesRepo, ExamplesRepo>();
-builder.Services.AddScoped<IMasterRepo, MasterRepo>();
-builder.Services.AddScoped<IPhotoFileRepo, PhotoFileRepo>();
-builder.Services.AddScoped<IScheduleRepo, ScheduleRepo>();
-builder.Services.AddScoped<IScheduleBlockerRepo, ScheduleBlockerRepo>();
+builder.Services.AddRepositories();
 
 //Services
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IJWTAuthService, JWTAuthService>();
-builder.Services.AddScoped<IStyleService, StyleService>();
-builder.Services.AddScoped<IMasterService, MasterService>();
-builder.Services.AddScoped<IExamplesService, ExamplesService>();
-builder.Services.AddScoped<IPhotoFileService, PhotoFileService>();
-builder.Services.AddScoped<IScheduleService, ScheduleService>();
+builder.Services.AddServices();
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("JWT Bearer", new OpenApiSecurityScheme

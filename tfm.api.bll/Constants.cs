@@ -1,6 +1,6 @@
 ﻿namespace tfm.api.bll
 {
-    internal class Constants
+    internal static class Constants
     {
         public const string CustomerRoleName = "Customer";
         public const string MasterRoleName = "Master";

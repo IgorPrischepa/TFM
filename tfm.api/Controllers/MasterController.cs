@@ -90,7 +90,7 @@ namespace tfm.api.Controllers
         {
             try
             {
-                if (masterExample.ExamplePhoto == null || (masterExample.ExamplePhoto.Length == 0))
+                if (masterExample.ExamplePhoto.Length == 0)
                 {
                     return BadRequest("No file is selected or the file is empty.");
                 }

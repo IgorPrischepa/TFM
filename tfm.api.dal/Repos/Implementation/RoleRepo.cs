@@ -1,10 +1,9 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using tfm.api.dal.Db;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
 
-namespace tfm.api.dal.Repos.Implementations
+namespace tfm.api.dal.Repos.Implementation
 {
     public sealed class RoleRepo : IRolesRepo
     {
