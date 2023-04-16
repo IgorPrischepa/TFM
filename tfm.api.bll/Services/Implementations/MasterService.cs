@@ -47,7 +47,7 @@ namespace tfm.api.bll.Services.Implementations
 
             if (examplesCount == 5)
             {
-                throw new TooManyExamplesException("For one style and master allowed less or eqaual to 5 pics.");
+                throw new TooManyExamplesException("For one style and master allowed less or equal to 5 pics.");
             }
 
             int exampleId = await _examples.AddAsync(new ExampleEntity()
@@ -59,14 +59,14 @@ namespace tfm.api.bll.Services.Implementations
 
             if (exampleId == 0)
             {
-                throw new ArgumentOutOfRangeException("Example id can't be less or equals to zero");
+                throw new ArgumentOutOfRangeException(nameof(exampleId),"Example id can't be less or equals to zero");
             }
 
             int photoId = await _photoFiles.AddAsync(masterExample.ExamplePhoto, exampleId);
 
             if (photoId == 0)
             {
-                throw new ArgumentOutOfRangeException("Photo id can't be less or equals to zero");
+                throw new ArgumentOutOfRangeException(nameof(photoId),"Photo id can't be less or equals to zero");
             }
 
             await _examples.AttachPhotoAsync(exampleId, photoId);
@@ -108,7 +108,7 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task<int> AddNewAsync(int id)
         {
-            UserEntity? user = await _users.FindByIdAsync(id)
+            UserEntity user = await _users.FindByIdAsync(id)
                                ?? throw new ArgumentException("Invalid user id.");
 
             return await _masters.AddNewAsync(user);
@@ -116,13 +116,13 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task AddPriceAsync(AddMasterPriceDto newMasterPrice)
         {
-            StyleEntity? targetStyle = await _styles.GetAsync(newMasterPrice.StyleId)
+            StyleEntity targetStyle = await _styles.GetAsync(newMasterPrice.StyleId)
                                        ?? throw new NotFoundException(
-                                           $"Style didn't finded. Check value = {newMasterPrice.StyleId}");
+                                           $"Style didn't found. Check value = {newMasterPrice.StyleId}");
 
-            MasterEntity? targetMaster = await _masters.GetAsync(newMasterPrice.MasterId)
+            MasterEntity targetMaster = await _masters.GetAsync(newMasterPrice.MasterId)
                                          ?? throw new NotFoundException(
-                                             $"Master didn't finded. Check value = {newMasterPrice.MasterId}");
+                                             $"Master didn't found. Check value = {newMasterPrice.MasterId}");
 
             StylePriceEntity stylePrice = new()
             {

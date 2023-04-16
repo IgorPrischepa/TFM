@@ -8,6 +8,8 @@
 
         public UserEntity User { get; set; } = null!;
 
-        public byte[]? Avatar { get; set; }
+        public int AvatarId { get; set; }
+
+        public ImageFileEntity? Avatar { get; set; }
     }
 }

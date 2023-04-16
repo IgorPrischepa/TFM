@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace tfm.api.bll.DTO.User
 {
@@ -14,6 +15,9 @@ namespace tfm.api.bll.DTO.User
         public string FirstName { get; set; } = null!;
 
         public string MiddleName { get; set; } = null!;
+        
+
+        public IFormFile? Avatar { get; set; }
 
         public string LastName { get; set; } = null!;
 
