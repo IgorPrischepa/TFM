@@ -7,7 +7,7 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    public class UserService : IUserService
+    internal sealed class UserService : IUserService
     {
         private readonly IUserRepo _userRepo;
         private readonly ILogger<UserService> _logger;

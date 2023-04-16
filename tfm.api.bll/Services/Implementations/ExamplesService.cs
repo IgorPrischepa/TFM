@@ -6,7 +6,7 @@ using tfm.api.exceptions;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    public sealed class ExamplesService : IExamplesService
+    internal sealed class ExamplesService : IExamplesService
     {
         private readonly IExamplesRepo _examples;
 
