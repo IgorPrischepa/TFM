@@ -7,7 +7,7 @@ using tfm.api.exceptions;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    public sealed class PhotoFileService : IPhotoFileService
+    internal sealed class PhotoFileService : IPhotoFileService
     {
         private readonly IPhotoFileRepo _photos;
         private readonly string _basePath;

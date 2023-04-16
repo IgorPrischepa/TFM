@@ -10,7 +10,7 @@ using tfm.api.bll.Services.Contracts;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    public class JwtAuthService : IJWTAuthService
+    internal sealed class JwtAuthService : IJWTAuthService
     {
         private readonly IUserService _userService;
         private readonly ILogger<JwtAuthService> _logger;

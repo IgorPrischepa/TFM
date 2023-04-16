@@ -8,7 +8,7 @@ using tfm.api.exceptions;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    public sealed class MasterService : IMasterService
+    internal sealed class MasterService : IMasterService
     {
         private readonly IUserRepo _users;
         private readonly IMasterRepo _masters;
