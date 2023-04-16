@@ -8,7 +8,7 @@ using tfm.api.exceptions;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    public sealed class MasterService : IMasterService
+    internal sealed class MasterService : IMasterService
     {
         private readonly IUserRepo _users;
         private readonly IMasterRepo _masters;
@@ -101,7 +101,7 @@ namespace tfm.api.bll.Services.Implementations
                 Id = example.Id,
                 MasterId = example.MasterId,
                 StyleId = example.StyleId,
-                PhotoFile = await _photoFiles.GetBase64Async(exampleId),
+                PhotoBase64 = await _photoFiles.GetBase64Async(exampleId),
                 ShortDescription = example.ShortDescription
             };
         }

@@ -19,14 +19,14 @@ namespace tfm.api.Controllers
             _logger = logger;
         }
 
-
         [Authorize(Policy = "Admin")]
         [HttpPost("Add/{userId:min(1)}")]
         public async Task<IActionResult> AddMasterAsync(int userId)
         {
             try
             {
-                return Ok(await _masterService.AddNewAsync(userId));
+                var masterId = await _masterService.AddNewAsync(userId);
+                return Ok(masterId.ToString());
             }
             catch (ArgumentException ex)
             {
@@ -90,7 +90,7 @@ namespace tfm.api.Controllers
         {
             try
             {
-                if (masterExample.ExamplePhoto == null || (masterExample.ExamplePhoto.Length == 0))
+                if (masterExample.ExamplePhoto.Length == 0)
                 {
                     return BadRequest("No file is selected or the file is empty.");
                 }
@@ -128,7 +128,6 @@ namespace tfm.api.Controllers
             }
         }
 
-
         [Authorize(Policy = "PublicData")]
         [HttpGet("GetExample")]
         public async Task<IActionResult> GetExampleAsync(int exampleId)
@@ -140,7 +139,7 @@ namespace tfm.api.Controllers
                     return BadRequest();
                 }
 
-                ShowExampleDto example = await _masterService.GetExampleAsync(exampleId);
+                ShowExampleDto? example = await _masterService.GetExampleAsync(exampleId);
 
                 return Ok(example);
             }

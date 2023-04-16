@@ -7,7 +7,7 @@ using tfm.api.exceptions;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    public sealed class PhotoFileService : IPhotoFileService
+    internal sealed class PhotoFileService : IPhotoFileService
     {
         private readonly IPhotoFileRepo _photos;
         private readonly string _basePath;
@@ -82,7 +82,7 @@ namespace tfm.api.bll.Services.Implementations
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error occurred while reading file '{photoFileEntity.FilePath}'. {ex.Message}");
+                throw new FileLoadException($"Error occurred while reading file '{photoFileEntity.FilePath}'. {ex.Message}");
             }
         }
     }

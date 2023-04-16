@@ -22,11 +22,11 @@ namespace tfm.api.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] AddStyleDto newStyle)
         {
-            _logger.LogInformation("Add new style executing.");
+            _logger.LogInformation("Add new style executing");
 
             await _styles.AddAsync(newStyle);
 
-            _logger.LogInformation("New style has been added.");
+            _logger.LogInformation("New style has been added");
 
             return Ok();
         }
@@ -34,11 +34,11 @@ namespace tfm.api.Controllers
         [HttpDelete("Delete/{id:min(1)}")]
         public async Task<IActionResult> DeleteAsync([FromQuery] int styleId)
         {
-            _logger.LogInformation("Style is being deleted.");
+            _logger.LogInformation("Style is being deleted");
 
             await _styles.DeleteAsync(styleId);
 
-            _logger.LogInformation("Styel has been deleted.");
+            _logger.LogInformation("Style has been deleted");
 
             return Ok();
         }

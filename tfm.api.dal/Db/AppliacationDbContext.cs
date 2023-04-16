@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using tfm.api.dal.Db.Configs;
 using tfm.api.dal.Entities;
 
 namespace tfm.api.dal.Db
@@ -25,6 +26,10 @@ namespace tfm.api.dal.Db
 
         public DbSet<CustomerEntity> Customers { get; set; } = null!;
 
+        public DbSet<ScheduleEntity> Schedule { get; set; } = null!;
+
+        public DbSet<ScheduleBlockerEntity> ScheduleBlockers { get; set; } = null!;
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -40,6 +45,7 @@ namespace tfm.api.dal.Db
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new StylePriceConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
         }
     }
 }

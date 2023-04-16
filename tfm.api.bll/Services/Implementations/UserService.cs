@@ -7,7 +7,7 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    public class UserService : IUserService
+    internal sealed class UserService : IUserService
     {
         private readonly IUserRepo _userRepo;
         private readonly ILogger<UserService> _logger;
@@ -42,7 +42,7 @@ namespace tfm.api.bll.Services.Implementations
             if (!BC.Verify(password, targetUser.PasswordHash))
             {
                 return null;
-            };
+            }
 
             return new BaseUserDto()
             {
@@ -56,7 +56,7 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task RegisterUserAsync(AddUserDto user)
         {
-            _logger.LogInformation("Start registration for a new user.");
+            _logger.LogInformation("Start registration for a new user");
 
             if (user is null)
             {
@@ -73,25 +73,23 @@ namespace tfm.api.bll.Services.Implementations
                 PasswordHash = BC.HashPassword(user.Password)
             };
 
-            _logger.LogInformation("New user is ready. Add roless");
+            _logger.LogInformation("New user is ready. Add roles");
 
             RoleEntity? customerRole = await _rolesRepo.FindByNameAsync(Constants.CustomerRoleName);
 
             if (customerRole == null)
             {
-                _logger.LogCritical("Role can't be finded. Create new custemer impossible.");
-                throw new Exception($"Role: {Constants.CustomerRoleName}, can't be finded.");
+                _logger.LogCritical("Role can't be found. Create new customer impossible");
+                throw new Exception($"Role: {Constants.CustomerRoleName}, can't be found.");
             }
-
-            newUser.Roles ??= new List<RoleEntity>();
 
             newUser.Roles.Add(customerRole);
 
-            _logger.LogInformation("Roles applied successfully.");
+            _logger.LogInformation("Roles applied successfully");
 
             await _userRepo.AddAsync(newUser);
 
-            _logger.LogInformation("User has been created successfully.");
+            _logger.LogInformation("User has been created successfully");
         }
     }
 }

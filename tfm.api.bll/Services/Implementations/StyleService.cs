@@ -6,7 +6,7 @@ using tfm.api.dal.Repos.Contracts;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    public sealed class StyleService : IStyleService
+    internal sealed class StyleService : IStyleService
     {
         private readonly IStyleRepo _styles;
         private readonly ILogger<StyleService> _logger;
