@@ -9,7 +9,7 @@ namespace tfm.api.bll.Services.Contracts
 
         Task<int> CountAsync(int masterId, int styleId);
 
-        Task<ExampleDto?> GetAsync(int exampleId);
+        Task<ExampleModel?> GetAsync(int exampleId);
 
         Task DeleteAsync(int exampleId);
         

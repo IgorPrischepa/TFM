@@ -8,6 +8,6 @@ namespace tfm.api.bll.Services.Contracts
 
         Task DeleteAsync(int userId);
 
-        Task<BaseUserDto?> GetUserAsync(string userEmail, string password);
+        Task<BaseUserModel?> GetUserAsync(string userEmail, string password);
     }
 }

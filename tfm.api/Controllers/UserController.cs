@@ -49,7 +49,7 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Admin")]
         [HttpDelete("Delete/{id:min(1)}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
             try
             {

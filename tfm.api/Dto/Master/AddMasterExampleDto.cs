@@ -2,7 +2,7 @@
 
 namespace tfm.api.Dto.Master
 {
-    public class AddMasterExampleDto
+    public sealed class AddMasterExampleDto
     {
         [Required]
         [Range(0, int.MaxValue)]

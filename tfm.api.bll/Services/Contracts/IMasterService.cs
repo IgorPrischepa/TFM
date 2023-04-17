@@ -23,6 +23,6 @@ namespace tfm.api.bll.Services.Contracts
         
         Task DeleteExampleAsync(int exampleId);
         
-        Task<ShowExampleDto?> GetExampleAsync(int exampleId);
+        Task<ShowExampleModel?> GetExampleAsync(int exampleId);
     }
 }

@@ -36,7 +36,7 @@ namespace tfm.api.Controllers
         }
 
         [HttpDelete("Delete/{id:min(1)}")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] int id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
             _logger.LogInformation("Style is being deleted");
 

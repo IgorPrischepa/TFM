@@ -8,13 +8,13 @@ public interface IScheduleService
 
     Task DeleteAsync(int scheduleId);
 
-    Task<ShowScheduleDto?> GetAsync(int scheduleId);
+    Task<ShowScheduleModel?> GetAsync(int scheduleId);
 
     Task DeleteBlockerAsync(int scheduleBlockerId);
 
     Task<int> AddBlockerAsync(AddScheduleBlockerModel blockerModel);
 
-    Task<ShowScheduleBlockerDto?> GetBlockerAsync(int blockerId);
+    Task<ShowScheduleBlockerModel?> GetBlockerAsync(int blockerId);
 
-    Task<List<ShowScheduleBlockerDto>> GetMasterBlockersAsync(int masterId);
+    Task<List<ShowScheduleBlockerModel>> GetMasterBlockersAsync(int masterId);
 }

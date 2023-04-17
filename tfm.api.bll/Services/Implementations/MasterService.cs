@@ -74,7 +74,7 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task DeleteExampleAsync(int exampleId)
         {
-            ExampleDto? example = await _examples.GetAsync(exampleId);
+            ExampleModel? example = await _examples.GetAsync(exampleId);
 
             if (example == null)
             {
@@ -87,16 +87,16 @@ namespace tfm.api.bll.Services.Implementations
             await _examples.DeleteAsync(exampleId);
         }
 
-        public async Task<ShowExampleDto?> GetExampleAsync(int exampleId)
+        public async Task<ShowExampleModel?> GetExampleAsync(int exampleId)
         {
-            ExampleDto? example = await _examples.GetAsync(exampleId);
+            ExampleModel? example = await _examples.GetAsync(exampleId);
 
             if (example == null)
             {
                 return null;
             }
 
-            return new ShowExampleDto()
+            return new ShowExampleModel()
             {
                 Id = example.Id,
                 MasterId = example.MasterId,

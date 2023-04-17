@@ -22,7 +22,7 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Admin")]
         [HttpPost("Add/{userId:min(1)}")]
-        public async Task<IActionResult> AddMasterAsync(int userId)
+        public async Task<IActionResult> AddMasterAsync([FromRoute] int userId)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Admin")]
         [HttpDelete("Delete/{userId:min(1)}")]
-        public async Task<IActionResult> DeleteMasterAsync(int userId)
+        public async Task<IActionResult> DeleteMasterAsync([FromRoute] int userId)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpDelete("DeletePrice/{stylePrice:min(1)}")]
-        public async Task<IActionResult> DeletePriceAsync([FromQuery] int stylePrice)
+        public async Task<IActionResult> DeletePriceAsync([FromRoute] int stylePrice)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "ExampleEditor")]
         [HttpDelete("DeleteExample/{exampleId:min(1)}")]
-        public async Task<IActionResult> DeleteExampleAsync([FromQuery] int exampleId)
+        public async Task<IActionResult> DeleteExampleAsync([FromRoute] int exampleId)
         {
             try
             {
@@ -143,11 +143,11 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "PublicData")]
         [HttpGet("GetExample/{exampleId:min(1)}")]
-        public async Task<IActionResult> GetExampleAsync([FromQuery] int exampleId)
+        public async Task<IActionResult> GetExampleAsync([FromRoute] int exampleId)
         {
             try
             {
-                ShowExampleDto? example = await _masterService.GetExampleAsync(exampleId);
+                ShowExampleModel? example = await _masterService.GetExampleAsync(exampleId);
 
                 return Ok(example);
             }

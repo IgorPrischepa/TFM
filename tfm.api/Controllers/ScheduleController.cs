@@ -69,7 +69,7 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpDelete("DeleteScheduleBlocker/{id:min(1)}")]
-        public async Task<IActionResult> DeleteScheduleBlockerAsync([FromQuery] int id)
+        public async Task<IActionResult> DeleteScheduleBlockerAsync([FromRoute] int id)
         {
             try
             {
@@ -86,11 +86,11 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpGet("GetBlocker/{id:min(1)}")]
-        public async Task<IActionResult> GetBlockerAsync([FromQuery]int id)
+        public async Task<IActionResult> GetBlockerAsync([FromRoute] int id)
         {
             try
             {
-                ShowScheduleBlockerDto? blockerDto = await _scheduleService.GetBlockerAsync(id);
+                ShowScheduleBlockerModel? blockerDto = await _scheduleService.GetBlockerAsync(id);
                 return Ok(blockerDto);
             }
             catch (Exception ex)
@@ -103,11 +103,11 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpGet("GetMasterBlockers/{id:min(1)}")]
-        public async Task<IActionResult> GetMasterBlockersAsync([FromQuery]int id)
+        public async Task<IActionResult> GetMasterBlockersAsync([FromRoute] int id)
         {
             try
             {
-                List<ShowScheduleBlockerDto> blockersDto = await _scheduleService.GetMasterBlockersAsync(id);
+                List<ShowScheduleBlockerModel> blockersDto = await _scheduleService.GetMasterBlockersAsync(id);
                 return Ok(blockersDto);
             }
             catch (Exception ex)
@@ -120,11 +120,11 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpGet("GetScheduleDay/{id:min(1)}")]
-        public async Task<IActionResult> GetScheduleDayAsync([FromQuery]int id)
+        public async Task<IActionResult> GetScheduleDayAsync([FromRoute] int id)
         {
             try
             {
-                ShowScheduleDto? blockersDto = await _scheduleService.GetAsync(id);
+                ShowScheduleModel? blockersDto = await _scheduleService.GetAsync(id);
                 return Ok(blockersDto);
             }
             catch (Exception ex)
@@ -137,7 +137,7 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpDelete("DeleteSchedule/{id:min(1)}")]
-        public async Task<IActionResult> DeleteScheduleAsync(int id)
+        public async Task<IActionResult> DeleteScheduleAsync([FromRoute] int id)
         {
             try
             {

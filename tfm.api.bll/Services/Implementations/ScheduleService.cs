@@ -45,7 +45,7 @@ namespace tfm.api.bll.Services.Implementations
             await _schedule.DeleteAsync(scheduleId);
         }
 
-        public async Task<ShowScheduleDto?> GetAsync(int scheduleId)
+        public async Task<ShowScheduleModel?> GetAsync(int scheduleId)
         {
             ScheduleEntity? entity = await _schedule.GetAsync(scheduleId);
 
@@ -54,7 +54,7 @@ namespace tfm.api.bll.Services.Implementations
                 return null;
             }
 
-            return new ShowScheduleDto
+            return new ShowScheduleModel
             {
                 Id = entity.Id,
                 DayOfWeek = entity.DayOfWeek,
@@ -100,7 +100,7 @@ namespace tfm.api.bll.Services.Implementations
             return await _scheduleBlockers.AddAsync(blockerEntity);
         }
 
-        public async Task<ShowScheduleBlockerDto?> GetBlockerAsync(int blockerId)
+        public async Task<ShowScheduleBlockerModel?> GetBlockerAsync(int blockerId)
         {
             ScheduleBlockerEntity? blockerEntity = await _scheduleBlockers.GetAsync(blockerId);
 
@@ -109,7 +109,7 @@ namespace tfm.api.bll.Services.Implementations
                 return null;
             }
 
-            return new ShowScheduleBlockerDto
+            return new ShowScheduleBlockerModel
             {
                 Id = blockerEntity.Id,
                 StartDateTime = blockerEntity.StartDateTime,
@@ -119,9 +119,9 @@ namespace tfm.api.bll.Services.Implementations
             };
         }
 
-        public async Task<List<ShowScheduleBlockerDto>> GetMasterBlockersAsync(int masterId)
+        public async Task<List<ShowScheduleBlockerModel>> GetMasterBlockersAsync(int masterId)
         {
-            return (await _scheduleBlockers.GetMasterBlockersAsync(masterId)).Select(_ => new ShowScheduleBlockerDto
+            return (await _scheduleBlockers.GetMasterBlockersAsync(masterId)).Select(_ => new ShowScheduleBlockerModel
             {
                 Id = _.Id,
                 StartDateTime = _.StartDateTime,
