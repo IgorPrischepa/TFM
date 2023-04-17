@@ -10,7 +10,8 @@ namespace tfm.api.dal.Db
         {
             builder.HasOne(u => u.ImageFile)
                    .WithOne(e => e.Example)
-                   .HasForeignKey<ImageFileEntity>(k => k.ExampleId);
+                   .HasForeignKey<ImageFileEntity>(k => k.ExampleId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

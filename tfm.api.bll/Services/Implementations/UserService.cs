@@ -79,8 +79,8 @@ namespace tfm.api.bll.Services.Implementations
 
             if (customerRole == null)
             {
-                _logger.LogCritical("Role can't be found. Create new customer impossible");
-                throw new Exception($"Role: {Constants.CustomerRoleName}, can't be found.");
+                _logger.LogCritical("Role not found. Create new customer impossible");
+                throw new Exception($"Role: {Constants.CustomerRoleName}, not found.");
             }
 
             newUser.Roles.Add(customerRole);
