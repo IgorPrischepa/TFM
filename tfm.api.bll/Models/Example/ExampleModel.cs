@@ -1,6 +1,6 @@
 namespace tfm.api.bll.Models.Example;
 
-public class ExampleModel
+public sealed class ExampleModel
 {
     public int Id { get; set; }
 

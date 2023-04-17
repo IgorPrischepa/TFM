@@ -1,6 +1,6 @@
 namespace tfm.api.bll.Models.Schedule;
 
-public class ShowScheduleBlockerModel
+public sealed class ShowScheduleBlockerModel
 {
     public int Id { get; set; }
 
