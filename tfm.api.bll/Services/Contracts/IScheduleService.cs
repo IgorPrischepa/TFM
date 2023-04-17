@@ -1,10 +1,10 @@
-using tfm.api.bll.DTO.Schedule;
+using tfm.api.bll.Models.Schedule;
 
 namespace tfm.api.bll.Services.Contracts;
 
 public interface IScheduleService
 {
-    Task<int> AddAsync(AddScheduleDayDto scheduleDayDto);
+    Task<int> AddAsync(AddScheduleDayModel scheduleDayModel);
 
     Task DeleteAsync(int scheduleId);
 
@@ -12,7 +12,7 @@ public interface IScheduleService
 
     Task DeleteBlockerAsync(int scheduleBlockerId);
 
-    Task<int> AddBlockerAsync(AddScheduleBlockerDto blockerDto);
+    Task<int> AddBlockerAsync(AddScheduleBlockerModel blockerModel);
 
     Task<ShowScheduleBlockerDto?> GetBlockerAsync(int blockerId);
 

@@ -1,4 +1,4 @@
-using tfm.api.bll.DTO.Schedule;
+using tfm.api.bll.Models.Schedule;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -17,29 +17,24 @@ namespace tfm.api.bll.Services.Implementations
             _scheduleBlockers = scheduleBlockerRepo;
         }
 
-        public async Task<int> AddAsync(AddScheduleDayDto scheduleDayDto)
+        public async Task<int> AddAsync(AddScheduleDayModel scheduleDayModel)
         {
-            if (scheduleDayDto == null) throw new ArgumentNullException(nameof(scheduleDayDto));
-
-            if (scheduleDayDto.MasterId <= 0)
-                throw new ArgumentOutOfRangeException(nameof(scheduleDayDto.MasterId));
-
-            if (await _schedule.IsScheduledAsync(scheduleDayDto.MasterId, scheduleDayDto.DayOfWeek))
+            if (await _schedule.IsScheduledAsync(scheduleDayModel.MasterId, scheduleDayModel.DayOfWeek))
             {
                 throw new ScheduleAlreadyExistsException("Master already has schedule for this day.");
             }
 
-            if (scheduleDayDto.StartTime >= scheduleDayDto.EndTime)
+            if (scheduleDayModel.StartTime >= scheduleDayModel.EndTime)
             {
                 throw new InvalidTimePeriodException("Start time can't be after end time.");
             }
 
             return await _schedule.AddAsync(new ScheduleEntity
             {
-                DayOfWeek = scheduleDayDto.DayOfWeek,
-                StartTime = scheduleDayDto.StartTime,
-                EndTime = scheduleDayDto.EndTime,
-                MasterId = scheduleDayDto.MasterId
+                DayOfWeek = scheduleDayModel.DayOfWeek,
+                StartTime = scheduleDayModel.StartTime,
+                EndTime = scheduleDayModel.EndTime,
+                MasterId = scheduleDayModel.MasterId
             });
         }
 
@@ -71,26 +66,19 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task DeleteBlockerAsync(int scheduleBlockerId)
         {
-            if (scheduleBlockerId <= 0) throw new ArgumentOutOfRangeException(nameof(scheduleBlockerId));
-
             await _scheduleBlockers.DeleteAsync(scheduleBlockerId);
         }
 
-        public async Task<int> AddBlockerAsync(AddScheduleBlockerDto blockerDto)
+        public async Task<int> AddBlockerAsync(AddScheduleBlockerModel blockerModel)
         {
-            if (blockerDto == null) throw new ArgumentNullException(nameof(blockerDto));
-
-            if (blockerDto.MasterId <= 0)
-                throw new ArgumentOutOfRangeException(nameof(blockerDto.MasterId));
-
-            if (blockerDto.StartDateTime >= blockerDto.EndDateTime)
+            if (blockerModel.StartDateTime >= blockerModel.EndDateTime)
             {
                 throw new InvalidTimePeriodException("Start time can't be after end time.");
             }
 
-            bool isOverlapped = await _scheduleBlockers.CheckDatesOverlapAsync(blockerDto.StartDateTime,
-                blockerDto.EndDateTime,
-                blockerDto.MasterId);
+            bool isOverlapped = await _scheduleBlockers.CheckDatesOverlapAsync(blockerModel.StartDateTime,
+                blockerModel.EndDateTime,
+                blockerModel.MasterId);
 
             if (isOverlapped)
             {
@@ -99,14 +87,14 @@ namespace tfm.api.bll.Services.Implementations
 
             ScheduleBlockerEntity blockerEntity = new ScheduleBlockerEntity
             {
-                StartDateTime = blockerDto.StartDateTime,
-                EndDateTime = blockerDto.EndDateTime,
-                MasterId = blockerDto.MasterId
+                StartDateTime = blockerModel.StartDateTime,
+                EndDateTime = blockerModel.EndDateTime,
+                MasterId = blockerModel.MasterId
             };
 
-            if (!string.IsNullOrEmpty(blockerDto.Reason))
+            if (!string.IsNullOrEmpty(blockerModel.Reason))
             {
-                blockerEntity.Reason = blockerDto.Reason;
+                blockerEntity.Reason = blockerModel.Reason;
             }
 
             return await _scheduleBlockers.AddAsync(blockerEntity);
@@ -114,8 +102,6 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task<ShowScheduleBlockerDto?> GetBlockerAsync(int blockerId)
         {
-            if (blockerId <= 0) throw new ArgumentOutOfRangeException(nameof(blockerId));
-
             ScheduleBlockerEntity? blockerEntity = await _scheduleBlockers.GetAsync(blockerId);
 
             if (blockerEntity == null)
@@ -135,8 +121,6 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task<List<ShowScheduleBlockerDto>> GetMasterBlockersAsync(int masterId)
         {
-            if (masterId <= 0) throw new ArgumentOutOfRangeException(nameof(masterId));
-
             return (await _scheduleBlockers.GetMasterBlockersAsync(masterId)).Select(_ => new ShowScheduleBlockerDto
             {
                 Id = _.Id,

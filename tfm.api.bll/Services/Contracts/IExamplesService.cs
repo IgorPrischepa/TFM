@@ -1,4 +1,4 @@
-﻿using tfm.api.bll.DTO.Example;
+﻿using tfm.api.bll.Models.Example;
 using tfm.api.dal.Entities;
 
 namespace tfm.api.bll.Services.Contracts

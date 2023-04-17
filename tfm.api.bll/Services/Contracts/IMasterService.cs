@@ -1,5 +1,5 @@
-﻿using tfm.api.bll.DTO.Example;
-using tfm.api.bll.DTO.Master;
+﻿using tfm.api.bll.Models.Example;
+using tfm.api.bll.Models.Master;
 
 namespace tfm.api.bll.Services.Contracts
 {
@@ -15,11 +15,11 @@ namespace tfm.api.bll.Services.Contracts
 
         Task UnblockAsync(int masterId);
 
-        Task AddPriceAsync(AddMasterPriceDto newMaster);
+        Task AddPriceAsync(AddMasterPriceModel newMaster);
 
         Task DeletePriceAsync(int stylePriceId);
 
-        Task AddExampleAsync(AddMasterExampleDto masterExample);
+        Task AddExampleAsync(AddMasterExampleModel masterExample);
         
         Task DeleteExampleAsync(int exampleId);
         

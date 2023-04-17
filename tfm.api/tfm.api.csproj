@@ -35,4 +35,8 @@
     <ProjectReference Include="..\tfm.api.dal\tfm.api.dal.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dto\Example\" />
+  </ItemGroup>
+
 </Project>

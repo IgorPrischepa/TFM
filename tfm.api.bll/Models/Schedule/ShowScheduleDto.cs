@@ -1,7 +1,9 @@
-namespace tfm.api.bll.DTO.Schedule;
+namespace tfm.api.bll.Models.Schedule;
 
-public class AddScheduleDayDto
+public class ShowScheduleDto
 {
+    public int Id { get; set; }
+
     public DayOfWeek DayOfWeek { get; set; }
 
     public TimeOnly StartTime { get; set; }

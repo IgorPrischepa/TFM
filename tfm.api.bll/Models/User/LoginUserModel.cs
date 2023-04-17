@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace tfm.api.bll.DTO.User
+namespace tfm.api.bll.Models.User
 {
-    public sealed class LoginUserDto
+    public sealed class LoginUserModel
     {
         [Required]
         [EmailAddress]

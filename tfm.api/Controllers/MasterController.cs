@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using tfm.api.bll.DTO.Example;
-using tfm.api.bll.DTO.Master;
+using tfm.api.bll.Models.Example;
+using tfm.api.bll.Models.Master;
 using tfm.api.bll.Services.Contracts;
+using tfm.api.Dto.Master;
 
 namespace tfm.api.Controllers
 {
@@ -30,9 +31,10 @@ namespace tfm.api.Controllers
             }
             catch (ArgumentException ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "Admin")]
@@ -46,31 +48,38 @@ namespace tfm.api.Controllers
             }
             catch (ArgumentException ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "Master")]
         [HttpPost("AddPrice")]
-        public async Task<IActionResult> AddPriceAsync(AddMasterPriceDto masterPrice)
+        public async Task<IActionResult> AddPriceAsync([FromBody] AddMasterPriceDto masterPrice)
         {
             try
             {
-                await _masterService.AddPriceAsync(masterPrice);
+                await _masterService.AddPriceAsync(new AddMasterPriceModel
+                {
+                    MasterId = masterPrice.MasterId,
+                    StyleId = masterPrice.StyleId,
+                    Price = masterPrice.Price
+                });
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "Master")]
-        [HttpDelete("DeletePrice")]
-        public async Task<IActionResult> DeletePriceAsync(int stylePrice)
+        [HttpDelete("DeletePrice/{stylePrice:min(1)}")]
+        public async Task<IActionResult> DeletePriceAsync([FromQuery] int stylePrice)
         {
             try
             {
@@ -79,9 +88,10 @@ namespace tfm.api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "Master")]
@@ -95,59 +105,58 @@ namespace tfm.api.Controllers
                     return BadRequest("No file is selected or the file is empty.");
                 }
 
-                await _masterService.AddExampleAsync(masterExample);
+                await _masterService.AddExampleAsync(new AddMasterExampleModel
+                {
+                    MasterId = masterExample.MasterId,
+                    StyleId = masterExample.StyleId,
+                    ShortDescription = masterExample.ShortDescription,
+                    ExamplePhoto = masterExample.ExamplePhoto 
+                });
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "ExampleEditor")]
-        [HttpDelete("DeleteExample")]
-        public async Task<IActionResult> DeleteExampleAsync(int exampleId)
+        [HttpDelete("DeleteExample/{exampleId:min(1)}")]
+        public async Task<IActionResult> DeleteExampleAsync([FromQuery] int exampleId)
         {
             try
             {
-                if (exampleId <= 0)
-                {
-                    return BadRequest();
-                }
-
                 await _masterService.DeleteExampleAsync(exampleId);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "PublicData")]
-        [HttpGet("GetExample")]
-        public async Task<IActionResult> GetExampleAsync(int exampleId)
+        [HttpGet("GetExample/{exampleId:min(1)}")]
+        public async Task<IActionResult> GetExampleAsync([FromQuery] int exampleId)
         {
             try
             {
-                if (exampleId <= 0)
-                {
-                    return BadRequest();
-                }
-
                 ShowExampleDto? example = await _masterService.GetExampleAsync(exampleId);
 
                 return Ok(example);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
     }
 }

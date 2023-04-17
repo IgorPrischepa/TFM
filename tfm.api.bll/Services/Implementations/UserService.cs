@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using tfm.api.bll.DTO.User;
+using tfm.api.bll.Models.User;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -22,11 +22,6 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task DeleteAsync(int userId)
         {
-            if (userId < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(userId), "UserId can't be less than zero.");
-            }
-
             await _userRepo.DeleteAsync(userId);
         }
 
@@ -54,15 +49,9 @@ namespace tfm.api.bll.Services.Implementations
             };
         }
 
-        public async Task RegisterUserAsync(AddUserDto user)
+        public async Task RegisterUserAsync(AddUserModel user)
         {
             _logger.LogInformation("Start registration for a new user");
-
-            if (user is null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            // create Only customers
 
             UserEntity newUser = new()
             {

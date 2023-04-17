@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using tfm.api.bll.DTO.Example;
-using tfm.api.bll.DTO.Master;
+using tfm.api.bll.Models.Example;
+using tfm.api.bll.Models.Master;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -35,7 +35,7 @@ namespace tfm.api.bll.Services.Implementations
             _logger = logger;
         }
 
-        public async Task AddExampleAsync(AddMasterExampleDto masterExample)
+        public async Task AddExampleAsync(AddMasterExampleModel masterExample)
         {
             if (!await _stylePrices.IsExistAsync(masterExample.MasterId, masterExample.StyleId))
             {
@@ -47,7 +47,7 @@ namespace tfm.api.bll.Services.Implementations
 
             if (examplesCount == 5)
             {
-                throw new TooManyExamplesException("For one style and master allowed less or eqaual to 5 pics.");
+                throw new TooManyExamplesException("For one style and master allowed less or equal to 5 pics.");
             }
 
             int exampleId = await _examples.AddAsync(new ExampleEntity()
@@ -59,14 +59,14 @@ namespace tfm.api.bll.Services.Implementations
 
             if (exampleId == 0)
             {
-                throw new ArgumentOutOfRangeException("Example id can't be less or equals to zero");
+                throw new ArgumentOutOfRangeException(nameof(exampleId),"Example id can't be less or equals to zero");
             }
 
             int photoId = await _photoFiles.AddAsync(masterExample.ExamplePhoto, exampleId);
 
             if (photoId == 0)
             {
-                throw new ArgumentOutOfRangeException("Photo id can't be less or equals to zero");
+                throw new ArgumentOutOfRangeException(nameof(photoId),"Photo id can't be less or equals to zero");
             }
 
             await _examples.AttachPhotoAsync(exampleId, photoId);
@@ -114,15 +114,15 @@ namespace tfm.api.bll.Services.Implementations
             return await _masters.AddNewAsync(user);
         }
 
-        public async Task AddPriceAsync(AddMasterPriceDto newMasterPrice)
+        public async Task AddPriceAsync(AddMasterPriceModel newMasterPrice)
         {
             StyleEntity? targetStyle = await _styles.GetAsync(newMasterPrice.StyleId)
                                        ?? throw new NotFoundException(
-                                           $"Style didn't finded. Check value = {newMasterPrice.StyleId}");
+                                           $"Style not found. Check value = {newMasterPrice.StyleId}");
 
             MasterEntity? targetMaster = await _masters.GetAsync(newMasterPrice.MasterId)
                                          ?? throw new NotFoundException(
-                                             $"Master didn't finded. Check value = {newMasterPrice.MasterId}");
+                                             $"Master not found. Check value = {newMasterPrice.MasterId}");
 
             StylePriceEntity stylePrice = new()
             {
@@ -146,11 +146,6 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task DeletePriceAsync(int stylePriceId)
         {
-            if (stylePriceId <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(stylePriceId));
-            }
-
             await _stylePrices.DeleteAsync(stylePriceId);
         }
 
