@@ -14,7 +14,7 @@ namespace tfm.api.dal.Repos.Implementation
             _db = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task<int> AddAsync(PhotoFileEntity photoFileEntity)
+        public async Task<int> AddAsync(ImageFileEntity photoFileEntity)
         {
             if (photoFileEntity is null)
             {
@@ -29,7 +29,7 @@ namespace tfm.api.dal.Repos.Implementation
 
         public async Task DeleteAsync(int photoFileId)
         {
-            PhotoFileEntity? photoFile = await _db.PhotoFiles.FirstOrDefaultAsync(_ => _.Id == photoFileId);
+            ImageFileEntity? photoFile = await _db.PhotoFiles.FirstOrDefaultAsync(_ => _.Id == photoFileId);
 
             if (photoFile != null)
             {
@@ -38,7 +38,7 @@ namespace tfm.api.dal.Repos.Implementation
             }
         }
 
-        public async Task<PhotoFileEntity?> GetAsync(int photoId)
+        public async Task<ImageFileEntity?> GetAsync(int photoId)
         {
             return await _db.PhotoFiles.FirstOrDefaultAsync(_ => _.Id == photoId);
         }

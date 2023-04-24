@@ -14,7 +14,7 @@ namespace tfm.api.dal.Db
 
         public DbSet<ExampleEntity> Examples { get; set; } = null!;
 
-        public DbSet<PhotoFileEntity> PhotoFiles { get; set; } = null!;
+        public DbSet<ImageFileEntity> PhotoFiles { get; set; } = null!;
 
         public DbSet<MasterEntity> Masters { get; set; } = null!;
 

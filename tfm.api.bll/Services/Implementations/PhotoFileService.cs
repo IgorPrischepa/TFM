@@ -38,7 +38,7 @@ namespace tfm.api.bll.Services.Implementations
 
             try
             {
-                return await _photos.AddAsync(new PhotoFileEntity()
+                return await _photos.AddAsync(new ImageFileEntity()
                 {
                     FilePath = endFileName,
                     ExampleId = exampleId
@@ -50,10 +50,38 @@ namespace tfm.api.bll.Services.Implementations
                 throw;
             }
         }
+        
+        public async Task<int> AddAvatarToUserAsync(IFormFile formFile, int userId)
+        {
+            if (formFile == null || formFile.Length == 0)
+                throw new ArgumentNullException(nameof(formFile), "No file is selected or the file is empty.");
+
+            string endFileName = Path.Combine(_basePath, Path.GetRandomFileName());
+
+            // Save the file to the server
+            await using (var stream = new FileStream(endFileName, FileMode.Create))
+            {
+                await formFile.CopyToAsync(stream);
+            }
+
+            try
+            {
+                return await _photos.AddAsync(new ImageFileEntity()
+                {
+                    FilePath = endFileName,
+                    UserId = userId
+                });
+            }
+            catch (Exception)
+            {
+                File.Delete(endFileName);
+                throw;
+            }
+        }
 
         public async Task DeleteAsync(int photoId)
         {
-            PhotoFileEntity? photoFileEntity = await _photos.GetAsync(photoId);
+            ImageFileEntity? photoFileEntity = await _photos.GetAsync(photoId);
 
             if (photoFileEntity != null)
             {
@@ -68,7 +96,7 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task<string> GetBase64Async(int photoId)
         {
-            PhotoFileEntity? photoFileEntity = await _photos.GetAsync(photoId);
+            ImageFileEntity? photoFileEntity = await _photos.GetAsync(photoId);
 
             if (photoFileEntity == null)
             {

@@ -15,7 +15,7 @@
 
         public int PhotoFileId { get; set; }
 
-        public PhotoFileEntity PhotoFile { get; set; } = null!;
+        public ImageFileEntity ImageFile { get; set; } = null!;
 
         public string? ShortDescription { get; set; }
     }

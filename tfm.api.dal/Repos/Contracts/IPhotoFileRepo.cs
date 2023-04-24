@@ -4,10 +4,10 @@ namespace tfm.api.dal.Repos.Contracts
 {
     public interface IPhotoFileRepo
     {
-        Task<int> AddAsync(PhotoFileEntity photoFileEntity);
+        Task<int> AddAsync(ImageFileEntity imageFileEntity);
 
         Task DeleteAsync(int photoFileId);
 
-        Task<PhotoFileEntity?> GetAsync(int photoId);
+        Task<ImageFileEntity?> GetAsync(int photoId);
     }
 }
