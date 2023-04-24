@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using tfm.api.bll.DTO.User;
+using tfm.api.bll.Models.User;
 using tfm.api.bll.Services.Contract;
 using tfm.api.bll.Services.Contracts;
 
@@ -35,7 +35,7 @@ namespace tfm.api.bll.Services.Implementations
                        throw new ArgumentNullException(nameof(configuration),"Jwt:accessTokenExpiration can't be null. Check appsettings.");
         }
 
-        public async Task<string> GenerateTokenAsync(LoginUserDto user)
+        public async Task<string> GenerateTokenAsync(LoginUserModel user)
         {
             _logger.LogInformation("Start generation token");
 

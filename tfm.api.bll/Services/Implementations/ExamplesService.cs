@@ -1,4 +1,4 @@
-﻿using tfm.api.bll.DTO.Example;
+﻿using tfm.api.bll.Models.Example;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
 using tfm.api.dal.Repos.Contracts;
@@ -30,13 +30,13 @@ namespace tfm.api.bll.Services.Implementations
             return await _examples.CountAsync(masterId, styleId);
         }
 
-        public async Task<ExampleDto?> GetAsync(int exampleId)
+        public async Task<ExampleModel?> GetAsync(int exampleId)
         {
             ExampleEntity? example = await _examples.GetAsync(exampleId);
 
             if (example == null) return null;
 
-            return new ExampleDto()
+            return new ExampleModel()
             {
                 MasterId = example.MasterId,
                 StyleId = example.StyleId,

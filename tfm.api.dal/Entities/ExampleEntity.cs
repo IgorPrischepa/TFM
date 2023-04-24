@@ -17,6 +17,6 @@
 
         public ImageFileEntity ImageFile { get; set; } = null!;
 
-        public string ShortDescription { get; set; } = string.Empty;
+        public string? ShortDescription { get; set; }
     }
 }

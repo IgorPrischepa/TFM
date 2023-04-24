@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
-namespace tfm.api.bll.DTO.User
+namespace tfm.api.bll.Models.User
 {
-    public sealed class AddUserDto
+    public sealed class AddUserModel
     {
         [Required]
         [EmailAddress]

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using tfm.api.bll.DTO.Schedule;
+using tfm.api.bll.Models.Schedule;
 using tfm.api.bll.Services.Contracts;
+using tfm.api.Dto.Schedule;
 
 namespace tfm.api.Controllers
 {
@@ -20,118 +21,135 @@ namespace tfm.api.Controllers
 
         [Authorize(Policy = "Master")]
         [HttpPost("AddScheduleDay")]
-        public async Task<IActionResult> AddScheduleDayAsync(AddScheduleDayDto addScheduleDayDto)
+        public async Task<IActionResult> AddScheduleDayAsync([FromBody] AddScheduleDayDto addScheduleDayModel)
         {
-            if (addScheduleDayDto == null) throw new ArgumentNullException(nameof(addScheduleDayDto));
-
             try
             {
-                int scheduleId = await _scheduleService.AddAsync(addScheduleDayDto);
+                int scheduleId = await _scheduleService.AddAsync(new AddScheduleDayModel
+                {
+                    DayOfWeek = addScheduleDayModel.DayOfWeek,
+                    StartTime = addScheduleDayModel.StartTime,
+                    EndTime = addScheduleDayModel.EndTime,
+                    MasterId = addScheduleDayModel.MasterId
+                });
+
                 return Ok(scheduleId.ToString());
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
+
+            return BadRequest();
         }
 
         [Authorize(Policy = "Master")]
         [HttpPost("AddScheduleBlocker")]
-        public async Task<IActionResult> AddScheduleBlockerAsync(AddScheduleBlockerDto addScheduleBlockerDto)
+        public async Task<IActionResult> AddScheduleBlockerAsync([FromBody] AddScheduleBlockerDto addScheduleBlockerDto)
         {
-            if (addScheduleBlockerDto == null) throw new ArgumentNullException(nameof(addScheduleBlockerDto));
-
             try
             {
-                int scheduleId = await _scheduleService.AddBlockerAsync(addScheduleBlockerDto);
+                int scheduleId = await _scheduleService.AddBlockerAsync(new AddScheduleBlockerModel
+                {
+                    StartDateTime = addScheduleBlockerDto.StartDateTime,
+                    EndDateTime = addScheduleBlockerDto.EndDateTime,
+                    MasterId = addScheduleBlockerDto.MasterId,
+                    Reason = addScheduleBlockerDto.Reason
+                });
+
                 return Ok(scheduleId.ToString());
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
+
+            return BadRequest();
         }
 
         [Authorize(Policy = "Master")]
-        [HttpDelete("DeleteScheduleBlocker")]
-        public async Task<IActionResult> DeleteScheduleBlockerAsync(int blockerId)
+        [HttpDelete("DeleteScheduleBlocker/{id:min(1)}")]
+        public async Task<IActionResult> DeleteScheduleBlockerAsync([FromRoute] int id)
         {
             try
             {
-                await _scheduleService.DeleteBlockerAsync(blockerId);
+                await _scheduleService.DeleteBlockerAsync(id);
                 return Ok();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
+
+            return BadRequest();
         }
 
         [Authorize(Policy = "Master")]
-        [HttpGet("GetBlocker")]
-        public async Task<IActionResult> GetBlockerAsync(int blockerId)
+        [HttpGet("GetBlocker/{id:min(1)}")]
+        public async Task<IActionResult> GetBlockerAsync([FromRoute] int id)
         {
             try
             {
-                ShowScheduleBlockerDto? blockerDto = await _scheduleService.GetBlockerAsync(blockerId);
+                ShowScheduleBlockerModel? blockerDto = await _scheduleService.GetBlockerAsync(id);
                 return Ok(blockerDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "Master")]
-        [HttpGet("GetMasterBlockers")]
-        public async Task<IActionResult> GetMasterBlockersAsync(int masterId)
+        [HttpGet("GetMasterBlockers/{id:min(1)}")]
+        public async Task<IActionResult> GetMasterBlockersAsync([FromRoute] int id)
         {
             try
             {
-                List<ShowScheduleBlockerDto> blockersDto = await _scheduleService.GetMasterBlockersAsync(masterId);
+                List<ShowScheduleBlockerModel> blockersDto = await _scheduleService.GetMasterBlockersAsync(id);
                 return Ok(blockersDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "Master")]
-        [HttpGet("GetScheduleDay")]
-        public async Task<IActionResult> GetScheduleDayAsync(int scheduleId)
+        [HttpGet("GetScheduleDay/{id:min(1)}")]
+        public async Task<IActionResult> GetScheduleDayAsync([FromRoute] int id)
         {
             try
             {
-                ShowScheduleDto? blockersDto = await _scheduleService.GetAsync(scheduleId);
+                ShowScheduleModel? blockersDto = await _scheduleService.GetAsync(id);
                 return Ok(blockersDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "Master")]
-        [HttpDelete("DeleteSchedule")]
-        public async Task<IActionResult> DeleteScheduleAsync(int scheduleId)
+        [HttpDelete("DeleteSchedule/{id:min(1)}")]
+        public async Task<IActionResult> DeleteScheduleAsync([FromRoute] int id)
         {
             try
             {
-                await _scheduleService.DeleteAsync(scheduleId);
+                await _scheduleService.DeleteAsync(id);
                 return Ok();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex.StackTrace);
-                return BadRequest();
+                _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
+            
+            return BadRequest();
         }
     }
 }

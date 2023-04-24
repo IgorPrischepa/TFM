@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using tfm.api.bll.DTO.User;
+using tfm.api.bll.Models.User;
 using tfm.api.bll.Services.Contract;
+using tfm.api.Dto.User;
 
 namespace tfm.api.Controllers
 {
@@ -11,9 +12,9 @@ namespace tfm.api.Controllers
         private readonly IJWTAuthService _jwtService;
         private readonly ILogger<TokenController> _logger;
 
-        public TokenController(IJWTAuthService jWTAuth, ILogger<TokenController> logger)
+        public TokenController(IJWTAuthService jwtAuth, ILogger<TokenController> logger)
         {
-            _jwtService = jWTAuth;
+            _jwtService = jwtAuth;
             _logger = logger;
         }
 
@@ -22,16 +23,22 @@ namespace tfm.api.Controllers
         {
             try
             {
-                string token = await _jwtService.GenerateTokenAsync(user);
+                string token = await _jwtService.GenerateTokenAsync(new LoginUserModel
+                {
+                    Email = user.Email,
+                    Password = user.Password
+                });
 
-                _logger.LogInformation("The token has been successfully generated.");
+                _logger.LogInformation("The token has been successfully generated");
+                
                 return Ok(token);
             }
             catch (ArgumentException ex)
             {
                 _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
-                return Unauthorized();
             }
+
+            return Unauthorized();
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using tfm.api.bll.DTO.Style;
+using tfm.api.bll.Models.Style;
 using tfm.api.bll.Services.Contracts;
+using tfm.api.Dto.Style;
 
 namespace tfm.api.Controllers
 {
@@ -24,7 +25,10 @@ namespace tfm.api.Controllers
         {
             _logger.LogInformation("Add new style executing");
 
-            await _styles.AddAsync(newStyle);
+            await _styles.AddAsync(new AddStyleModel()
+            {
+                StyleName = newStyle.StyleName
+            });
 
             _logger.LogInformation("New style has been added");
 
@@ -32,11 +36,11 @@ namespace tfm.api.Controllers
         }
 
         [HttpDelete("Delete/{id:min(1)}")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] int styleId)
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
             _logger.LogInformation("Style is being deleted");
 
-            await _styles.DeleteAsync(styleId);
+            await _styles.DeleteAsync(id);
 
             _logger.LogInformation("Style has been deleted");
 
