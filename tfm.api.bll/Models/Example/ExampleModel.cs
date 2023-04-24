@@ -1,6 +1,6 @@
-namespace tfm.api.bll.DTO.Example;
+namespace tfm.api.bll.Models.Example;
 
-public class ExampleDto
+public sealed class ExampleModel
 {
     public int Id { get; set; }
 

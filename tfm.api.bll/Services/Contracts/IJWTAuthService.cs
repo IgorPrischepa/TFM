@@ -1,9 +1,9 @@
-﻿using tfm.api.bll.DTO.User;
+﻿using tfm.api.bll.Models.User;
 
 namespace tfm.api.bll.Services.Contract
 {
     public interface IJWTAuthService
     {
-        Task<string> GenerateTokenAsync(LoginUserDto user);
+        Task<string> GenerateTokenAsync(LoginUserModel user);
     }
 }

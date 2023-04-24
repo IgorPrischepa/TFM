@@ -1,4 +1,4 @@
-﻿using tfm.api.bll.DTO.Example;
+﻿using tfm.api.bll.Models.Example;
 using tfm.api.dal.Entities;
 
 namespace tfm.api.bll.Services.Contracts
@@ -9,7 +9,7 @@ namespace tfm.api.bll.Services.Contracts
 
         Task<int> CountAsync(int masterId, int styleId);
 
-        Task<ExampleDto?> GetAsync(int exampleId);
+        Task<ExampleModel?> GetAsync(int exampleId);
 
         Task DeleteAsync(int exampleId);
         

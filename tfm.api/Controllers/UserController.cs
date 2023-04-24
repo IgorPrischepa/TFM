@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using tfm.api.bll.DTO.User;
+using tfm.api.bll.Models.User;
 using tfm.api.bll.Services.Contracts;
+using tfm.api.Dto.User;
 
 namespace tfm.api.Controllers
 {
@@ -25,40 +26,47 @@ namespace tfm.api.Controllers
             {
                 _logger.LogInformation("User registration start");
 
-                await _userService.RegisterUserAsync(user);
+                await _userService.RegisterUserAsync(new AddUserModel
+                {
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    MiddleName = user.MiddleName,
+                    LastName = user.LastName,
+                    Password = user.Password
+                });
 
-                _logger.LogInformation("User has been registered.");
+                _logger.LogInformation("User has been registered");
 
                 return Ok();
             }
             catch (Exception ex)
             {
                 _logger.LogError("{Message}{NewLine}{StackTrace}", ex.Message, Environment.NewLine, ex.StackTrace);
-
-                return BadRequest();
             }
+            
+            return BadRequest();
         }
 
         [Authorize(Policy = "Admin")]
         [HttpDelete("Delete/{id:min(1)}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
             try
             {
-                _logger.LogInformation("User deleting start.");
+                _logger.LogInformation("User deleting start");
 
                 await _userService.DeleteAsync(id);
 
-                _logger.LogInformation("User has been deleted.");
+                _logger.LogInformation("User has been deleted");
 
                 return Ok();
             }
             catch (Exception ex)
             {
                 _logger.LogError("{Message}{NewLine}{StackTrace}", ex.Message, Environment.NewLine, ex.StackTrace);
-
-                return BadRequest();
             }
+            
+            return BadRequest();
         }
     }
 }

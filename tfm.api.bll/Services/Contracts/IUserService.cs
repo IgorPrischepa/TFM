@@ -1,13 +1,13 @@
-﻿using tfm.api.bll.DTO.User;
+﻿using tfm.api.bll.Models.User;
 
 namespace tfm.api.bll.Services.Contracts
 {
     public interface IUserService
     {
-        Task RegisterUserAsync(AddUserDto user);
+        Task RegisterUserAsync(AddUserModel user);
 
         Task DeleteAsync(int userId);
 
-        Task<BaseUserDto?> GetUserAsync(string userEmail, string password);
+        Task<BaseUserModel?> GetUserAsync(string userEmail, string password);
     }
 }

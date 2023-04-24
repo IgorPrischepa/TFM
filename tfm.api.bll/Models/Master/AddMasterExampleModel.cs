@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
-namespace tfm.api.bll.DTO.Master
+namespace tfm.api.bll.Models.Master
 {
-    public sealed class AddMasterExampleDto
+    public sealed class AddMasterExampleModel
     {
         [Required]
         public int MasterId { get; set; }
