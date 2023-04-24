@@ -7,12 +7,12 @@ using tfm.api.exceptions;
 
 namespace tfm.api.bll.Services.Implementations
 {
-    internal sealed class PhotoFileService : IPhotoFileService
+    internal sealed class ImageFileService : IPhotoFileService
     {
         private readonly IPhotoFileRepo _photos;
         private readonly string _basePath;
 
-        public PhotoFileService(IPhotoFileRepo photoFileRepo, IConfiguration configuration)
+        public ImageFileService(IPhotoFileRepo photoFileRepo, IConfiguration configuration)
         {
             _photos = photoFileRepo;
             _basePath = Path.Combine(Environment.CurrentDirectory, configuration.GetValue<string>("PathToFiles"));
@@ -50,7 +50,7 @@ namespace tfm.api.bll.Services.Implementations
                 throw;
             }
         }
-        
+
         public async Task<int> AddAvatarToUserAsync(IFormFile formFile, int userId)
         {
             if (formFile == null || formFile.Length == 0)
@@ -96,12 +96,8 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task<string> GetBase64Async(int photoId)
         {
-            ImageFileEntity? photoFileEntity = await _photos.GetAsync(photoId);
-
-            if (photoFileEntity == null)
-            {
-                throw new NotFoundException("Can't find image with id {photoId}");
-            }
+            ImageFileEntity? photoFileEntity = await _photos.GetAsync(photoId)
+                ?? throw new NotFoundException("Can't find image with id {photoId}");
 
             try
             {

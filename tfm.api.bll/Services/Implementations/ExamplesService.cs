@@ -41,7 +41,7 @@ namespace tfm.api.bll.Services.Implementations
                 MasterId = example.MasterId,
                 StyleId = example.StyleId,
                 PhotoFileId = example.PhotoFileId,
-                ShortDescription = example.ShortDescription,
+                ShortDescription = example.ShortDescription ?? string.Empty,
                 Id = example.Id
             };
         }
@@ -55,9 +55,8 @@ namespace tfm.api.bll.Services.Implementations
 
         public async Task AttachPhotoAsync(int exampleId, int photoId)
         {
-            ExampleEntity? example = await _examples.GetAsync(exampleId);
-
-            if (example == null) throw new NotFoundException($"Can't find example with id = {photoId}");
+            ExampleEntity? example = await _examples.GetAsync(exampleId)
+                ?? throw new NotFoundException($"Can't find example with id = {photoId}");
 
             example.PhotoFileId = photoId;
 
