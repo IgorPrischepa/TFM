@@ -15,7 +15,7 @@ namespace tfm.api.bll.Services.Implementations
         public ImageFileService(IPhotoFileRepo photoFileRepo, IConfiguration configuration)
         {
             _photos = photoFileRepo;
-            _basePath = Path.Combine(Environment.CurrentDirectory, configuration.GetValue<string>("PathToFiles"));
+            _basePath = Path.Combine(Environment.CurrentDirectory, configuration.GetValue<string>("PathToFiles") ?? Path.GetRandomFileName());
 
             if (!Directory.Exists(_basePath))
             {

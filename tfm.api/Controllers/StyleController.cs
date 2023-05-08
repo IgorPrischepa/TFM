@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tfm.api.bll.Models.Style;
 using tfm.api.bll.Services.Contracts;
@@ -13,11 +14,13 @@ namespace tfm.api.Controllers
     {
         private readonly IStyleService _styles;
         private readonly ILogger<StyleController> _logger;
+        private readonly IMapper _mapper;
 
-        public StyleController(IStyleService styleService, ILogger<StyleController> logger)
+        public StyleController(IStyleService styleService, IMapper mapper, ILogger<StyleController> logger)
         {
             _styles = styleService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -25,10 +28,7 @@ namespace tfm.api.Controllers
         {
             _logger.LogInformation("Add new style executing");
 
-            await _styles.AddAsync(new AddStyleModel()
-            {
-                StyleName = newStyle.StyleName
-            });
+            await _styles.AddAsync(_mapper.Map<AddStyleModel>(newStyle));
 
             _logger.LogInformation("New style has been added");
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tfm.api.bll.Models.User;
 using tfm.api.bll.Services.Contracts;
@@ -12,11 +13,13 @@ namespace tfm.api.Controllers
     {
         private readonly IUserService _userService;
         private readonly ILogger<UserController> _logger;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, ILogger<UserController> logger)
+        public UserController(IUserService userService, IMapper mapper, ILogger<UserController> logger)
         {
             _userService = userService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpPost("Register")]
@@ -26,14 +29,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogInformation("User registration start");
 
-                await _userService.RegisterUserAsync(new AddUserModel
-                {
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    MiddleName = user.MiddleName,
-                    LastName = user.LastName,
-                    Password = user.Password
-                });
+                await _userService.RegisterUserAsync(_mapper.Map<AddUserModel>(user));
 
                 _logger.LogInformation("User has been registered");
 
@@ -43,7 +39,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}{NewLine}{StackTrace}", ex.Message, Environment.NewLine, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -65,7 +61,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}{NewLine}{StackTrace}", ex.Message, Environment.NewLine, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
     }
