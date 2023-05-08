@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using tfm.api.bll.Models.User;
 using tfm.api.bll.Services.Contract;
 using tfm.api.Dto.User;
@@ -11,11 +12,13 @@ namespace tfm.api.Controllers
     {
         private readonly IJWTAuthService _jwtService;
         private readonly ILogger<TokenController> _logger;
+        private readonly IMapper _mapper;
 
-        public TokenController(IJWTAuthService jwtAuth, ILogger<TokenController> logger)
+        public TokenController(IJWTAuthService jwtAuth, IMapper mapper, ILogger<TokenController> logger)
         {
             _jwtService = jwtAuth;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -23,14 +26,10 @@ namespace tfm.api.Controllers
         {
             try
             {
-                string token = await _jwtService.GenerateTokenAsync(new LoginUserModel
-                {
-                    Email = user.Email,
-                    Password = user.Password
-                });
+                string token = await _jwtService.GenerateTokenAsync(_mapper.Map<LoginUserModel>(user));
 
                 _logger.LogInformation("The token has been successfully generated");
-                
+
                 return Ok(token);
             }
             catch (ArgumentException ex)

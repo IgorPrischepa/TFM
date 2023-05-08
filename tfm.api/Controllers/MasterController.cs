@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tfm.api.bll.Models.Example;
 using tfm.api.bll.Models.Master;
@@ -13,11 +14,13 @@ namespace tfm.api.Controllers
     {
         private readonly IMasterService _masterService;
         private readonly ILogger<MasterController> _logger;
+        private readonly IMapper _mapper;
 
-        public MasterController(IMasterService masterService, ILogger<MasterController> logger)
+        public MasterController(IMasterService masterService, IMapper mapper, ILogger<MasterController> logger)
         {
             _masterService = masterService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [Authorize(Policy = "Admin")]
@@ -33,7 +36,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -50,7 +53,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -60,12 +63,7 @@ namespace tfm.api.Controllers
         {
             try
             {
-                await _masterService.AddPriceAsync(new AddMasterPriceModel
-                {
-                    MasterId = masterPrice.MasterId,
-                    StyleId = masterPrice.StyleId,
-                    Price = masterPrice.Price
-                });
+                await _masterService.AddPriceAsync(_mapper.Map<AddMasterPriceModel>(masterPrice));
 
                 return Ok();
             }
@@ -73,7 +71,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -90,7 +88,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -105,13 +103,7 @@ namespace tfm.api.Controllers
                     return BadRequest("No file is selected or the file is empty.");
                 }
 
-                await _masterService.AddExampleAsync(new AddMasterExampleModel
-                {
-                    MasterId = masterExample.MasterId,
-                    StyleId = masterExample.StyleId,
-                    ShortDescription = masterExample.ShortDescription,
-                    ExamplePhoto = masterExample.ExamplePhoto 
-                });
+                await _masterService.AddExampleAsync(_mapper.Map<AddMasterExampleModel>(masterExample));
 
                 return Ok();
             }
@@ -119,7 +111,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -137,7 +129,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -155,7 +147,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
     }
