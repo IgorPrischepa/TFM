@@ -116,6 +116,12 @@ namespace tfm.api.bll.Services.Implementations
                                          ?? throw new NotFoundException(
                                              $"Master not found. Check value = {newMasterPrice.MasterId}");
 
+            if (await _stylePrices.IsExistAsync(newMasterPrice.MasterId, newMasterPrice.StyleId))
+            {
+                throw new PriceAlreadyDefinedException(
+                    "Price already defined for this style");
+            }
+
             StylePriceEntity stylePrice = new()
             {
                 Master = targetMaster,
