@@ -5,7 +5,7 @@ namespace tfm.api.bll.Services.Contracts
 {
     public interface IExamplesService
     {
-        Task<int> AddAsync(ExampleEntity exampleEntity);
+        Task<int> AddAsync(ExampleModel exampleEntity);
 
         Task<int> CountAsync(int masterId, int styleId);
 

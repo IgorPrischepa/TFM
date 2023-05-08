@@ -1,3 +1,4 @@
+using AutoMapper;
 using tfm.api.bll.Models.Schedule;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
@@ -10,11 +11,13 @@ namespace tfm.api.bll.Services.Implementations
     {
         private readonly IScheduleRepo _schedule;
         private readonly IScheduleBlockerRepo _scheduleBlockers;
+        private readonly IMapper _mapper;
 
-        public ScheduleService(IScheduleRepo scheduleRepo, IScheduleBlockerRepo scheduleBlockerRepo)
+        public ScheduleService(IScheduleRepo scheduleRepo, IMapper mapper, IScheduleBlockerRepo scheduleBlockerRepo)
         {
             _schedule = scheduleRepo;
             _scheduleBlockers = scheduleBlockerRepo;
+            _mapper = mapper;
         }
 
         public async Task<int> AddAsync(AddScheduleDayModel scheduleDayModel)
@@ -54,14 +57,7 @@ namespace tfm.api.bll.Services.Implementations
                 return null;
             }
 
-            return new ShowScheduleModel
-            {
-                Id = entity.Id,
-                DayOfWeek = entity.DayOfWeek,
-                StartTime = entity.StartTime,
-                EndTime = entity.EndTime,
-                MasterId = entity.MasterId
-            };
+            return _mapper.Map<ShowScheduleModel>(entity);
         }
 
         public async Task DeleteBlockerAsync(int scheduleBlockerId)
@@ -85,12 +81,7 @@ namespace tfm.api.bll.Services.Implementations
                 throw new DateTimeOverlappedException("There are already date locks in the specified interval.");
             }
 
-            ScheduleBlockerEntity blockerEntity = new ScheduleBlockerEntity
-            {
-                StartDateTime = blockerModel.StartDateTime,
-                EndDateTime = blockerModel.EndDateTime,
-                MasterId = blockerModel.MasterId
-            };
+            ScheduleBlockerEntity blockerEntity = _mapper.Map<ScheduleBlockerEntity>(blockerModel);
 
             if (!string.IsNullOrEmpty(blockerModel.Reason))
             {
@@ -109,26 +100,13 @@ namespace tfm.api.bll.Services.Implementations
                 return null;
             }
 
-            return new ShowScheduleBlockerModel
-            {
-                Id = blockerEntity.Id,
-                StartDateTime = blockerEntity.StartDateTime,
-                EndDateTime = blockerEntity.EndDateTime,
-                MasterId = blockerEntity.MasterId,
-                Reason = blockerEntity.Reason
-            };
+            return _mapper.Map<ShowScheduleBlockerModel>(blockerEntity);
         }
 
         public async Task<List<ShowScheduleBlockerModel>> GetMasterBlockersAsync(int masterId)
         {
-            return (await _scheduleBlockers.GetMasterBlockersAsync(masterId)).Select(_ => new ShowScheduleBlockerModel
-            {
-                Id = _.Id,
-                StartDateTime = _.StartDateTime,
-                EndDateTime = _.EndDateTime,
-                MasterId = _.MasterId,
-                Reason = _.Reason
-            }).ToList();
+            return (await _scheduleBlockers.GetMasterBlockersAsync(masterId)).Select(_ => _mapper.Map<ShowScheduleBlockerModel>(_))
+                                                                             .ToList();
         }
     }
 }

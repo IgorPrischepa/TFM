@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tfm.api.bll.Models.Schedule;
@@ -12,11 +13,13 @@ namespace tfm.api.Controllers
     {
         private readonly IScheduleService _scheduleService;
         private readonly ILogger<ScheduleController> _logger;
+        private readonly IMapper _mapper;
 
-        public ScheduleController(IScheduleService scheduleService, ILogger<ScheduleController> logger)
+        public ScheduleController(IScheduleService scheduleService, IMapper mapper, ILogger<ScheduleController> logger)
         {
             _scheduleService = scheduleService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [Authorize(Policy = "Master")]
@@ -25,13 +28,7 @@ namespace tfm.api.Controllers
         {
             try
             {
-                int scheduleId = await _scheduleService.AddAsync(new AddScheduleDayModel
-                {
-                    DayOfWeek = addScheduleDayModel.DayOfWeek,
-                    StartTime = addScheduleDayModel.StartTime,
-                    EndTime = addScheduleDayModel.EndTime,
-                    MasterId = addScheduleDayModel.MasterId
-                });
+                int scheduleId = await _scheduleService.AddAsync(_mapper.Map<AddScheduleDayModel>(addScheduleDayModel));
 
                 return Ok(scheduleId.ToString());
             }
@@ -49,13 +46,7 @@ namespace tfm.api.Controllers
         {
             try
             {
-                int scheduleId = await _scheduleService.AddBlockerAsync(new AddScheduleBlockerModel
-                {
-                    StartDateTime = addScheduleBlockerDto.StartDateTime,
-                    EndDateTime = addScheduleBlockerDto.EndDateTime,
-                    MasterId = addScheduleBlockerDto.MasterId,
-                    Reason = addScheduleBlockerDto.Reason
-                });
+                int scheduleId = await _scheduleService.AddBlockerAsync(_mapper.Map<AddScheduleBlockerModel>(addScheduleBlockerDto));
 
                 return Ok(scheduleId.ToString());
             }
@@ -97,7 +88,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -114,7 +105,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -131,7 +122,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
 
@@ -148,7 +139,7 @@ namespace tfm.api.Controllers
             {
                 _logger.LogError("{Message}\n{StackTrace}", ex.Message, ex.StackTrace);
             }
-            
+
             return BadRequest();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using tfm.api.bll.Models.Style;
 using tfm.api.bll.Services.Contracts;
 using tfm.api.dal.Entities;
@@ -10,16 +11,18 @@ namespace tfm.api.bll.Services.Implementations
     {
         private readonly IStyleRepo _styles;
         private readonly ILogger<StyleService> _logger;
+        private readonly IMapper _mapper;
 
-        public StyleService(IStyleRepo styleRepo, ILogger<StyleService> logger)
+        public StyleService(IStyleRepo styleRepo, IMapper mapper, ILogger<StyleService> logger)
         {
             _styles = styleRepo;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public async Task<int> AddAsync(AddStyleModel newStyle)
         {
-            return await _styles.AddAsync(new RoleEntity() { Name = newStyle.StyleName });
+            return await _styles.AddAsync(_mapper.Map<StyleEntity>(newStyle));
         }
 
         public async Task DeleteAsync(int styleId)
