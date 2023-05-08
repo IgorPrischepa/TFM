@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using tfm.api.bll.Models.Example;
 using tfm.api.bll.Models.Master;
 using tfm.api.bll.Services.Contracts;
@@ -15,6 +16,7 @@ namespace tfm.api.bll.Services.Implementations
         private readonly IStyleRepo _styles;
         private readonly IStylePriceRepo _stylePrices;
         private readonly IExamplesService _examples;
+        private readonly IMapper _mapper;
         private readonly IPhotoFileService _photoFiles;
         private readonly ILogger<MasterService> _logger;
 
@@ -24,6 +26,7 @@ namespace tfm.api.bll.Services.Implementations
             IStyleRepo styleRepo,
             IExamplesService examples,
             IPhotoFileService photoFileService,
+            IMapper mapper,
             ILogger<MasterService> logger)
         {
             _users = userService;
@@ -31,6 +34,7 @@ namespace tfm.api.bll.Services.Implementations
             _styles = styleRepo;
             _stylePrices = stylePrice;
             _examples = examples;
+            _mapper = mapper;
             _photoFiles = photoFileService;
             _logger = logger;
         }
@@ -50,23 +54,18 @@ namespace tfm.api.bll.Services.Implementations
                 throw new TooManyExamplesException("For one style and master allowed less or equal to 5 pics.");
             }
 
-            int exampleId = await _examples.AddAsync(new ExampleEntity()
-            {
-                MasterId = masterExample.MasterId,
-                StyleId = masterExample.StyleId,
-                ShortDescription = masterExample.ShortDescription
-            });
+            int exampleId = await _examples.AddAsync(_mapper.Map<ExampleModel>(masterExample));
 
             if (exampleId == 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(exampleId),"Example id can't be less or equals to zero");
+                throw new ArgumentOutOfRangeException(nameof(exampleId), "Example id can't be less or equals to zero");
             }
 
             int photoId = await _photoFiles.AddAsync(masterExample.ExamplePhoto, exampleId);
 
             if (photoId == 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(photoId),"Photo id can't be less or equals to zero");
+                throw new ArgumentOutOfRangeException(nameof(photoId), "Photo id can't be less or equals to zero");
             }
 
             await _examples.AttachPhotoAsync(exampleId, photoId);
@@ -96,14 +95,7 @@ namespace tfm.api.bll.Services.Implementations
                 return null;
             }
 
-            return new ShowExampleModel()
-            {
-                Id = example.Id,
-                MasterId = example.MasterId,
-                StyleId = example.StyleId,
-                PhotoBase64 = await _photoFiles.GetBase64Async(exampleId),
-                ShortDescription = example.ShortDescription
-            };
+            return _mapper.Map<ShowExampleModel>(example);
         }
 
         public async Task<int> AddNewAsync(int id)
@@ -123,6 +115,12 @@ namespace tfm.api.bll.Services.Implementations
             MasterEntity targetMaster = await _masters.GetAsync(newMasterPrice.MasterId)
                                          ?? throw new NotFoundException(
                                              $"Master not found. Check value = {newMasterPrice.MasterId}");
+
+            if (await _stylePrices.IsExistAsync(newMasterPrice.MasterId, newMasterPrice.StyleId))
+            {
+                throw new PriceAlreadyDefinedException(
+                    "Price already defined for this style");
+            }
 
             StylePriceEntity stylePrice = new()
             {

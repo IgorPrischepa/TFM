@@ -12,19 +12,20 @@ using tfm.api.dal.Db;
 namespace tfm.api.dal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230216192240_ExtendUserContacts")]
-    partial class ExtendUserContacts
+    [Migration("20230508234203_MakePassRequired")]
+    partial class MakePassRequired
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("RoleEntityUserEntity", b =>
                 {
                     b.Property<int>("RolesId")
                         .HasColumnType("integer");
@@ -36,10 +37,10 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("RoleEntityUserEntity");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Booking", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.BookingEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,12 +74,15 @@ namespace tfm.api.dal.Migrations
                     b.ToTable("Bookings");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Contact", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.ContactEntity", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
 
                     b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Value")
@@ -90,7 +94,7 @@ namespace tfm.api.dal.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Customer", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.CustomerEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -98,20 +102,22 @@ namespace tfm.api.dal.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("Avatar")
-                        .HasColumnType("bytea");
+                    b.Property<int>("AvatarId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AvatarId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Example", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.ExampleEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,7 +132,6 @@ namespace tfm.api.dal.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ShortDescription")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("StyleId")
@@ -136,14 +141,40 @@ namespace tfm.api.dal.Migrations
 
                     b.HasIndex("MasterId");
 
-                    b.HasIndex("PhotoFileId");
-
                     b.HasIndex("StyleId");
 
                     b.ToTable("Examples");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Master", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.ImageFileEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExampleId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExampleId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PhotoFiles");
+                });
+
+            modelBuilder.Entity("tfm.api.dal.Entities.MasterEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -158,34 +189,21 @@ namespace tfm.api.dal.Migrations
                     b.Property<byte>("Exp")
                         .HasColumnType("smallint");
 
+                    b.Property<bool>("IsBlocked")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Masters");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.PhotoFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PhotoFiles");
-                });
-
-            modelBuilder.Entity("tfm.api.dal.Entities.Role", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.RoleEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -199,10 +217,85 @@ namespace tfm.api.dal.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Customer"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Master"
+                        });
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Style", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.ScheduleBlockerEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("EndDateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("MasterId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartDateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MasterId");
+
+                    b.ToTable("ScheduleBlockers");
+                });
+
+            modelBuilder.Entity("tfm.api.dal.Entities.ScheduleEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("integer");
+
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<int>("MasterId")
+                        .HasColumnType("integer");
+
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MasterId");
+
+                    b.ToTable("Schedule");
+                });
+
+            modelBuilder.Entity("tfm.api.dal.Entities.StyleEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -223,7 +316,7 @@ namespace tfm.api.dal.Migrations
                     b.ToTable("Styles");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.StylePrice", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.StylePriceEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -249,7 +342,7 @@ namespace tfm.api.dal.Migrations
                     b.ToTable("StylePrices");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.User", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.UserEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -257,14 +350,14 @@ namespace tfm.api.dal.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -282,33 +375,36 @@ namespace tfm.api.dal.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("RoleEntityUserEntity", b =>
                 {
-                    b.HasOne("tfm.api.dal.Entities.Role", null)
+                    b.HasOne("tfm.api.dal.Entities.RoleEntity", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("tfm.api.dal.Entities.User", null)
+                    b.HasOne("tfm.api.dal.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Booking", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.BookingEntity", b =>
                 {
-                    b.HasOne("tfm.api.dal.Entities.Customer", "Customer")
+                    b.HasOne("tfm.api.dal.Entities.CustomerEntity", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("tfm.api.dal.Entities.StylePrice", "StylePrice")
+                    b.HasOne("tfm.api.dal.Entities.StylePriceEntity", "StylePrice")
                         .WithMany()
                         .HasForeignKey("StylePriceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -319,9 +415,9 @@ namespace tfm.api.dal.Migrations
                     b.Navigation("StylePrice");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Contact", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.ContactEntity", b =>
                 {
-                    b.HasOne("tfm.api.dal.Entities.User", "User")
+                    b.HasOne("tfm.api.dal.Entities.UserEntity", "User")
                         .WithMany("Contacts")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -330,32 +426,34 @@ namespace tfm.api.dal.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Customer", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.CustomerEntity", b =>
                 {
-                    b.HasOne("tfm.api.dal.Entities.User", "User")
+                    b.HasOne("tfm.api.dal.Entities.ImageFileEntity", "Avatar")
+                        .WithMany()
+                        .HasForeignKey("AvatarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("tfm.api.dal.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Avatar");
+
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Example", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.ExampleEntity", b =>
                 {
-                    b.HasOne("tfm.api.dal.Entities.Master", "Master")
+                    b.HasOne("tfm.api.dal.Entities.MasterEntity", "Master")
                         .WithMany()
                         .HasForeignKey("MasterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("tfm.api.dal.Entities.PhotoFile", "PhotoFile")
-                        .WithMany()
-                        .HasForeignKey("PhotoFileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("tfm.api.dal.Entities.Style", "Style")
+                    b.HasOne("tfm.api.dal.Entities.StyleEntity", "Style")
                         .WithMany()
                         .HasForeignKey("StyleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -363,32 +461,71 @@ namespace tfm.api.dal.Migrations
 
                     b.Navigation("Master");
 
-                    b.Navigation("PhotoFile");
-
                     b.Navigation("Style");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Master", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.ImageFileEntity", b =>
                 {
-                    b.HasOne("tfm.api.dal.Entities.User", "User")
+                    b.HasOne("tfm.api.dal.Entities.ExampleEntity", "Example")
+                        .WithOne("ImageFile")
+                        .HasForeignKey("tfm.api.dal.Entities.ImageFileEntity", "ExampleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("tfm.api.dal.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Example");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("tfm.api.dal.Entities.MasterEntity", b =>
+                {
+                    b.HasOne("tfm.api.dal.Entities.UserEntity", "User")
+                        .WithOne()
+                        .HasForeignKey("tfm.api.dal.Entities.MasterEntity", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.StylePrice", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.ScheduleBlockerEntity", b =>
                 {
-                    b.HasOne("tfm.api.dal.Entities.Master", "Master")
+                    b.HasOne("tfm.api.dal.Entities.MasterEntity", "Master")
+                        .WithMany("ScheduleBlockers")
+                        .HasForeignKey("MasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Master");
+                });
+
+            modelBuilder.Entity("tfm.api.dal.Entities.ScheduleEntity", b =>
+                {
+                    b.HasOne("tfm.api.dal.Entities.MasterEntity", "Master")
+                        .WithMany("Schedules")
+                        .HasForeignKey("MasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Master");
+                });
+
+            modelBuilder.Entity("tfm.api.dal.Entities.StylePriceEntity", b =>
+                {
+                    b.HasOne("tfm.api.dal.Entities.MasterEntity", "Master")
                         .WithMany("Prices")
                         .HasForeignKey("MasterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("tfm.api.dal.Entities.Style", "Style")
-                        .WithMany()
+                    b.HasOne("tfm.api.dal.Entities.StyleEntity", "Style")
+                        .WithMany("Prices")
                         .HasForeignKey("StyleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -398,12 +535,27 @@ namespace tfm.api.dal.Migrations
                     b.Navigation("Style");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.Master", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.ExampleEntity", b =>
+                {
+                    b.Navigation("ImageFile")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("tfm.api.dal.Entities.MasterEntity", b =>
+                {
+                    b.Navigation("Prices");
+
+                    b.Navigation("ScheduleBlockers");
+
+                    b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("tfm.api.dal.Entities.StyleEntity", b =>
                 {
                     b.Navigation("Prices");
                 });
 
-            modelBuilder.Entity("tfm.api.dal.Entities.User", b =>
+            modelBuilder.Entity("tfm.api.dal.Entities.UserEntity", b =>
                 {
                     b.Navigation("Contacts");
                 });

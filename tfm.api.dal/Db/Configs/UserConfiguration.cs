@@ -9,6 +9,7 @@ namespace tfm.api.dal.Db
         public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
             builder.Property(u => u.Email).IsRequired();
+            builder.Property(u => u.PasswordHash).IsRequired();
             builder.HasIndex(u => u.Email).IsUnique();
             builder.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
             builder.Property(u => u.MiddleName).HasMaxLength(50);
